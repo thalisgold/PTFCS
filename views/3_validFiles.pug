@@ -1,0 +1,30 @@
+extends 0_layout
+
+block navTabs 
+    li.nav-item
+        a.nav-item.nav-link(href='/') Stadttouren
+    li.nav-item
+        a.nav-item.nav-link(href='/edit') Sehenswürdigkeiten bearbeiten/Touren erstellen
+    li.nav-item 
+        a.nav-item.nav-link.active(href='/validFiles') Valid Files
+
+
+block content 
+    #validForm
+        h3 #{title}
+        pre. 
+            {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "properties": {
+                        "Name": "Sehenswürdigkeit",
+                        "URL": "https://de.wikipedia.org/wiki/...",
+                        "Beschreibung": "Dies ist eine Sehenswürdigkeit"
+                    },
+                    "geometry": {
+                        "type": "Point / Polygon",
+                        "coordinates": [lng, lat] / [[[lng, lat], [lng, lat], ...]]
+                    }
+                }]
+            }

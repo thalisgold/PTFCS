@@ -1,0 +1,253 @@
+/* CSS-settings used for screen-width bigger than 1024px*/
+@media screen and (min-width: 1304px){
+    html {
+        height: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #map { 
+        height: 100%; 
+        width: 50%;
+        float: left;
+    }
+    
+    #infos { 
+        height: 100%;
+        margin-left: 50%;
+        overflow: auto;
+    }
+
+    #validForm, pre {
+        height: 100%;
+        margin: 20px;
+        font-size: x-large;
+        font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    #deleteButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    #haltestelleButton {
+        margin: 10px;
+        font-weight: bold;
+        color: forestgreen;
+        outline: auto;
+        outline-color: forestgreen;
+    }
+
+    #weatherButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    #deleteTourButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    h5 {
+        text-align: center;
+    }
+
+    p {
+        text-align: justify;
+        overflow-wrap: break-word;
+    }
+
+    #tourSights tr:hover td {
+        background: cornflowerblue;
+        }
+
+    
+    #tableTours {
+        outline: auto;
+        outline-color: black;
+        margin-left: 10px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+    }
+
+    #erstelleTour {
+        padding: 20px;
+    }
+    
+    .float-child-1 {
+        width: 70%;
+        float: left;
+    }  
+
+    .float-child-2 {
+        width: 30%;
+        float: left;
+    }  
+
+    #ui-id-1 {
+        z-index: 1031;
+    }
+
+    #uploadOptions {
+        margin-right: 10px;
+    }
+
+    #sights, #tours {
+        width: 400px;
+    }
+
+    .navbar-nav.nav-pills>li>a.active,
+    .navbar-nav.nav-pills>li>a:focus,
+    .navbar-nav.nav-pills>li>a:hover {
+        background-color: #3e6a19;
+    }
+
+    li.nav-item {
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    #contact>p,
+    #description>p {
+        text-align: center;
+    }
+
+    #contact>h5,
+    #description>h5 {
+        text-align: center;
+        font-weight: bold;
+    }
+
+
+}
+
+/* CSS-settings smaller than 1024px*/
+@media screen and (max-width: 1303px){
+    html {
+        height: 100%;
+        width: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+    }
+
+    #map { 
+        height: 70%; 
+        width: 100%
+    }
+
+    #infos {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    #validForm, pre {
+        height: 100%;
+        margin: 20px;
+        font-size: small;
+        font-family: "Lucida Console", "Courier New", monospace;
+    }
+
+    #deleteButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    #haltestelleButton {
+        margin: 10px;
+        font-weight: bold;
+        color: forestgreen;
+        outline: auto;
+        outline-color: forestgreen;
+    }
+
+    #weatherButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+
+    #deleteTourButton {
+        margin: 10px;
+        font-weight: bold;
+    }
+    
+    h5 {
+        text-align: center;
+    }
+
+    p {
+        text-align: justify;
+        word-wrap: break-word;
+    }
+
+    #tourSights tr:hover td {
+        background: cornflowerblue
+    }
+
+    #tourTable {
+        margin: 10px;
+    }
+
+    #tableTours {
+        outline: auto;
+        outline-color: black;
+        margin: 10px;
+        width: 98%;
+    }
+
+    #erstelleTour {
+        margin: 20px;
+    }
+
+    .float-child-1 {
+        width: 70%;
+        float: left;
+    }  
+
+    .float-child-2 {
+        width: 30%;
+        float: left;
+    }  
+
+    #uploadOptions {
+        margin: 10px;
+    }
+    
+    #ui-id-1 {
+        z-index: 1031;
+    }
+
+    .navbar-nav.nav-pills>li>a.active,
+    .navbar-nav.nav-pills>li>a:focus,
+    .navbar-nav.nav-pills>li>a:hover {
+        background-color: #3e6a19;
+    }
+
+    li.nav-item {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #contact>p,
+    #description>p {
+        text-align: center;
+    }
+
+    #contact>h5,
+    #description>h5 {
+        text-align: center;
+        font-weight: bold;
+    }
+
+}

@@ -1,0 +1,15 @@
+{
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "properties": {
+            "Name": "St.-Paulus-Dom",
+            "URL": "https://de.wikipedia.org/wiki/St.-Paulus-Dom_(M%C3%BCnster)",
+            "Beschreibung": ""
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [7.625788450404799, 51.96304673984573]
+        }
+    }]
+}

@@ -1,0 +1,146 @@
+[{
+  "_id": {
+    "$oid": "61422ca5345dc5bb83df3c09"
+  },
+  "name": "Tour 1",
+  "items": [
+    {
+      "_id": {
+        "$oid": "61334b3fb39cba8ff183a017"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "Erbdrostenhof",
+            "URL": "https://de.wikipedia.org/wiki/Erbdrostenhof",
+            "Beschreibung": "Der Erbdrostenhof ist ein barockes Adelspalais in Münster, gelegen an der Salzstraße 38. Er wurde nach Plänen von Johann Conrad Schlaun für den münsterschen Erbdrosten Adolf Heidenreich Freiherr Droste zu Vischering von 1753 bis 1757 erbaut. Bemerkenswert ist der dreiflügelige Bau durch seine hoch repräsentative Gestaltung auf sehr beengter Grundfläche."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.6322364807128915,
+              51.96090718577322
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "61334f09b39cba8ff183a01a"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "Überwasserkirche",
+            "URL": "https://de.wikipedia.org/wiki/%C3%9Cberwasserkirche",
+            "Beschreibung": "Die Überwasserkirche, auch Liebfrauenkirche oder Liebfrauen-Überwasser (masem. trans pani murmelbeis) genannt, ist eine gotische Hallenkirche in der westlichen Innenstadt von Münster in Westfalen. Ihr Name leitet sich von „Über dem Wasser“ ab, da sie westlich des St.-Paulus-Doms auf der gegenüberliegenden Seite der Aa liegt."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.622854113578797,
+              51.96413140556629
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "61334f5eb39cba8ff183a01b"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "Historisches Rathaus",
+            "URL": "https://de.wikipedia.org/wiki/Historisches_Rathaus_M%C3%BCnster",
+            "Beschreibung": "Das Historische Rathaus von Münster in Westfalen am Prinzipalmarkt ist neben dem St.-Paulus-Dom eines der Wahrzeichen der Stadt. Bekanntheit erlangte Münsters Rathaus während der Verhandlungen zum Westfälischen Frieden in Münster und Osnabrück, der den Dreißigjhrigen Krieg in Europa beendete. Zugleich ist es der Geburtsort der modernen Niederlande, da mit dem Frieden von Münster während des Kongresses am 15."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.628186345100404,
+              51.96157251122804
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "61334fdfb39cba8ff183a01c"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "Theater Münster",
+            "URL": "https://de.wikipedia.org/wiki/Theater_M%C3%BCnster",
+            "Beschreibung": "Das Theater Münster (ehemals: Städtische Bühnen Münster) ist ein Fünfspartentheater in Münster und bietet Vorstellungen der eigenen Ensembles in den Sparten Musiktheater (Oper, Operette, Musical), Schauspiel, Tanztheater (Ballett) und Junges Theater Münster. Außerdem finden hier die Sinfoniekonzerte des Sinfonieorchesters Münster statt. Ergänzt wird das Programm durch die Produktionen der Niederdeutschen Bühne, Gastspiele, Lesungen, Vorträge und Ausstellungen."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.629468441009522,
+              51.964825005138145
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "6133879636f1bad3e56d19d9"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "St.-Paulus-Dom",
+            "URL": "https://de.wikipedia.org/wiki/St.-Paulus-Dom_(M%C3%BCnster)",
+            "Beschreibung": "Der St.-Paulus-Dom ist eine römisch-katholische Kirche in Münster unter dem Patrozinium des Apostels Paulus. Die Kathedrale des Bistums Münster zählt zu den bedeutendsten Kirchenbauten in Münster und ist neben dem historischen Rathaus eines der Wahrzeichen der Stadt. Verwaltet wird der Dom vom Domkapitel Münster."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.625788450404799,
+              51.96304673984573
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "6133882d36f1bad3e56d19dc"
+      },
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type": "Feature",
+          "properties": {
+            "Name": "Zwinger",
+            "URL": "https://de.wikipedia.org/wiki/Zwinger_(M%C3%BCnster)",
+            "Beschreibung": "Der Zwinger im westfälischen Münster ist ein Teil der ehemaligen Stadtbefestigung aus der frühen Neuzeit. In der Zeit des Nationalsozialismus war er sowohl Gefängnis als auch Hinrichtungsstätte der Gestapo und wurde durch alliierte Bombenangriffe schwer beschädigt. Seit der Umwandlung in ein Mahnmal gehört der Zwinger zum Stadtmuseum Münster und beherbergt die Skulptur Das gegenläufige Konzert."
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              7.631739358365205,
+              51.967588117380764
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}]

@@ -1,0 +1,78 @@
+extends 0_layout
+
+block scripts
+
+    // Loading scripts
+    script(defer='' src='/javascripts/editSights.js')
+    script(defer='' src='/javascripts/editTours.js')
+    script(defer='' src='/javascripts/busStop.js')
+    script(defer='' src='/javascripts/searchUtilitiesSights.js')
+    
+block navTabs 
+    li.nav-item
+        a.nav-item.nav-link(href='/') Stadttouren
+    li.nav-item
+        a.nav-item.nav-link.active(href='/edit') Sehenswürdigkeiten bearbeiten/Touren erstellen
+    li.nav-item 
+        a.nav-item.nav-link(href='/validFiles') Valid Files
+
+
+block search 
+    div.d-flex
+            input#sights.form-control.me-2(type='search', placeholder='Suche nach Sehenswürdigkeiten', aria-label='Search' onkeydown = "if (event.keyCode == 13) {document.getElementById('searchButton').click()}")
+            button.btn.btn-primary(id="searchButton" type="button" onclick='clickSearch()') Suche
+
+
+block content 
+    // Map section
+    #map
+    // Information section
+    #infos
+
+        #sightTable
+            table.table.table-striped
+                tr
+                    th
+                    th Name
+                    th URL
+                
+                each n, index in sightData
+                    tr
+                        td
+                            input(type='checkbox' class='chb' id=n._id)
+                        td= n.features[0].properties.Name
+                        td= n.features[0].properties.URL  
+
+        button(class="btn btn-danger" id='deleteButton') Löschen
+        button(class="btn btn-warning" id='haltestelleButton') Nächste Haltestelle anzeigen
+        button(class="btn btn-info" id='weatherButton') Haltestellename und aktuelles Wetter anzeigen
+
+        br
+        br
+        
+        .grid-container
+            #tourTable.grid-child
+                table.table.table-striped(id='tableTours' style="display: none;")
+                #erstelleTour.float-container(style="display: none;")
+                    input.form-control.float-child-1(id='tourName' type='text' placeholder='Tour Name' name='tourName' onkeydown = "if (event.keyCode == 13) {document.getElementById('erstelleTourButton').click()}")
+                    button.float-child-2(class="btn btn-success" id='erstelleTourButton') Erstelle Tour
+                    
+                    br
+                    br
+            
+
+            #uploadOptions.grid-child
+                form(id='formAddSightInputFile' name='addSightFile' method='post' action='/edit/addSightInputFile' enctype='multipart/form-data')
+                    input.form-control(id='uploadSightInputFile' type='file' placeholder='sight' name='sightInputFile')
+                    button.form-control(class="btn btn-success" id='btnSubmitFile' type='submit') Hochloaden
+
+                br
+                br
+
+                form(id='formAddSightInputText' name='addSightText' method='post' action='/edit/addSightInputText' enctype='multipart/form-data')
+                    textarea(id='uploadSightInputText' type='text' placeholder='Füge eine Sehenswürdigkeit als GeoJSON-Text ein ' name='sightInputText' style='height: 12em; width: 100%' onkeydown = "if (event.keyCode == 13) {document.getElementById('btnSubmitText').click()}")
+                    br
+                    button(class="btn btn-success" id='btnSubmitText' type='submit') Hochladen
+
+    script.
+        var sights = !{JSON.stringify(sightData)}

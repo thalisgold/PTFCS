@@ -1,0 +1,44 @@
+extends 0_layout
+
+block scripts
+    script(defer='' src='/javascripts/home.js')
+    script(defer='' src='/javascripts/searchUtilitiesTours.js')
+
+block navTabs 
+    li.nav-item
+        a.nav-item.nav-link.active(href='/') Stadttouren
+    li.nav-item
+        a.nav-item.nav-link(href='/edit') Sehenswürdigkeiten bearbeiten/Touren erstellen
+    li.nav-item 
+        a.nav-item.nav-link(href='/validFiles') Valid Files
+
+block search 
+    div.d-flex
+            input#tours.form-control.me-2(type='search', placeholder='Suche nach Stadttouren', aria-label='Search' onkeydown = "if (event.keyCode == 13) {document.getElementById('searchButton').click()}")
+            button.btn.btn-primary(id="searchButton" type="button" onclick='clickSearch()') Suche
+
+block content 
+    // Map section
+    #map
+    // Information section
+    #infos
+        #tourName
+            table.table.table-striped
+                tr
+                    th
+                    th Name
+                
+                each n, index in tourData
+                    tr
+                        td
+                            input(type='checkbox' class='chb' id=n._id)
+                        td= n.name
+        #buttons
+            button(class="btn btn-danger" id='deleteTourButton' style='margin-bottom: 10px') Löschen
+
+        //Section for information about sights in a certain tour
+        #tourSights(style="display: none")
+            table.table.table-striped(id="table")
+            
+    script.
+        var tours = !{JSON.stringify(tourData)}
