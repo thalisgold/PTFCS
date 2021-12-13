@@ -23,7 +23,7 @@ let mapOptionsDefault = {
  * @returns - the leaflet map object
  */
 function createMap(htmlID = 'map', mapOptions = mapOptionsDefault) {
-     return L.map(htmlID, mapOptions).setView([51.9617, 7.6252], 15);
+     return L.map(htmlID, mapOptions).setView([51.9617, 7.6252], 13);
 }
 
 /**

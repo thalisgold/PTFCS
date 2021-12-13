@@ -18,11 +18,15 @@
  var drawControl = new L.Control.Draw({
      draw: {
          rectangle: false,
+         polygon: false,
          polyline: false,
          circle: false,
          circlemarker: false
      },
  });
+
+ // adds the draw control to the map
+ map.addControl(drawControl);
  
  // adds the layer with drawn items to the map
  map.addLayer(drawnItems);
