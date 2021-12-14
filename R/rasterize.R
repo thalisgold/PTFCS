@@ -11,7 +11,7 @@ rm(list = ls())
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 setwd("/media/fabian-s/3465-6433/Studium/5. Semester/Projekt Aufladen in Münster")
 
-ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/NRW_Münster_2022.geojson")
+ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/NRW_Münster_2030.geojson")
 siedlungsflächen <- read_sf("./Daten StandortTOOL Szenarien/Siedlungsflächen Münster.gpkg")
 
 
@@ -35,10 +35,10 @@ bbox
 
 x = st_rasterize(ladebedarf_intersected, st_as_stars(bbox, nx = 1603, ny = 2204, values = NA_real_))
 
+x = st_transform(x, st_crs("EPSG:4326"))
 
-class(x)
 
-write_stars(x, "muenster.tif")
+write_stars(x, "ladebedarf_rasterized_2030_EPSG_4326.tif")
 
 muenster_ladebedarf <- raster("muenster.tif")
 
@@ -46,4 +46,5 @@ muenster_ladebedarf
 
 mapview(muenster_ladebedarf)
 
-
+temp = raster("ladebedarf_rasterized_2022_EPSG_32632.tif")
+temp = projectRaster()
