@@ -38,5 +38,5 @@
  // adds the layer control to the map
  L.control.layers(baseMap).addTo(map);
 
- // 
- var layer = L.leafletGeotiff('http://localhost:3000/ladebedarf/ladebedarf_rasterized_2022_EPSG_4326.tif').addTo(map);
+
+ // var layer = L.leafletGeotiff('http://localhost:3000/ladebedarf/ladebedarf_rasterized_2022_EPSG_4326.tif').addTo(map);
