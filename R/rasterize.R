@@ -14,16 +14,16 @@ getwd()
 #setwd("C:/Users/thali/Documents/GitHub/PTFCS")
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-setwd("/media/fabian-s/3465-6433/Studium/5. Semester/Projekt Aufladen in MÃ¼nster")
+setwd("~/Documents/Studium/5. Semester/Aufladen in MÃ¼nster/PTFCS")
 
-ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/NRW_Münster_2022.geojson")
-siedlungsflächen <- read_sf("./Daten StandortTOOL Szenarien/Siedlungsflächen Münster.gpkg")
+ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/NRW_M?nster_2022.geojson")
+siedlungsfl?chen <- read_sf("./Daten StandortTOOL Szenarien/Siedlungsfl?chen M?nster.gpkg")
 
 
 ladebedarf <- st_transform(ladebedarf, st_crs("EPSG:32632"))
-siedlungsflächen <- st_transform(siedlungsflächen, st_crs("EPSG:32632"))
+siedlungsfl?chen <- st_transform(siedlungsfl?chen, st_crs("EPSG:32632"))
 
-ladebedarf_intersected = st_intersection(ladebedarf, siedlungsflächen)
+ladebedarf_intersected = st_intersection(ladebedarf, siedlungsfl?chen)
 ladebedarf
 
 mapview(ladebedarf_intersected)
@@ -44,11 +44,11 @@ x = st_rasterize(ladebedarf_intersected, st_as_stars(bbox, nx = 1603, ny = 2204,
 write_stars(x, "ladebedarf_rasterized_2022_EPSG_32632.tif")
 
 # Nach WGS84 reprojizieren
-muenster_ladebedarf <- raster("./public/ladebedarf/ladebedarf_rasterized_2030_EPSG_32632.tif")
+muenster_ladebedarf <- raster("./public/ladebedarf/ladebedarf_rasterized_2022_EPSG_32632.tif")
 
 proj <- '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs'
 muenster_ladebedarf_4326 <- projectRaster(muenster_ladebedarf, crs = proj)
 muenster_ladebedarf_4326
 
 mapview(muenster_ladebedarf_4326)
-writeRaster(muenster_ladebedarf_4326, "ladebedarf_rasterized_2030_EPSG_4326.tif")
+writeRaster(muenster_ladebedarf_4326, "ladebedarf_rasterized_2022_EPSG_4326.tif")
