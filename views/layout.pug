@@ -15,22 +15,16 @@ html
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css")
 
     // Loading leaflet script and stylesheet
-    //link(rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="")
-    //script(src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="")
-
-    // Loading the leaflet-geotiff plugin
-    link(rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css")
-    script(src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js")
-    script(src="/leaflet-geotiff/node_modules/geotiff/dist/main.js")
-    script(src="/leaflet-geotiff/node_modules/plotty/src/plotty.js")
-    script(src='/leaflet-geotiff/leaflet-geotiff.js')
-    <!-- Load any renderer you need -->
-    script(src='/leaflet-geotiff/leaflet-geotiff-plotty.js')
-    // <script type="text/javascript" src='/leaflet-geotiff/leaflet-geotiff-vector-arrows.js'></script>
+    link(rel="stylesheet" href="leaflet/dist/leaflet.css")
+    script(type="text/javascript" src="leaflet/dist/leaflet.js")
     
     // Loading the leaflet draw plugin
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    // Loading 
+    <script src="https://unpkg.com/georaster"></script>
+    <script src="https://unpkg.com/georaster-layer-for-leaflet"></script>
 
     // Loading turf script
     script(src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js')
