@@ -51,15 +51,15 @@ fetch(url_to_geotiff_file)
                 var layer = new GeoRasterLayer({
                     georaster: georaster,
                     opacity: 0.7,
-                    pixelValuesToColorFn: values => values[0] === -3.3999999521443642e+38 ? null :  (values[0] > 0 && values[0] <= 1) ? '#eb3434' :
-                                                                                                    (values[0] > 1 && values[0] <= 2) ? '#eb9e34' :
-                                                                                                    (values[0] > 2 && values[0] <= 3) ? '#dbeb34' :
-                                                                                                    (values[0] > 3 && values[0] <= 4) ? '#61eb34' :
-                                                                                                    (values[0] > 4 && values[0] <= 5) ? '#34eba1' :
-                                                                                                    (values[0] > 5 && values[0] <= 6) ? '#34baeb' :
-                                                                                                    (values[0] > 6 && values[0] <= 7) ? '#3455eb' :
-                                                                                                    (values[0] > 7 && values[0] <= 8) ? '#a134eb' :
-                                                                                                    '#eb34cf',
+                    pixelValuesToColorFn: values => (values[0] > 0 && values[0] <= 1) ? '#eb3434' :
+                                                    (values[0] > 1 && values[0] <= 2) ? '#eb9e34' :
+                                                    (values[0] > 2 && values[0] <= 3) ? '#dbeb34' :
+                                                    (values[0] > 3 && values[0] <= 4) ? '#61eb34' :
+                                                    (values[0] > 4 && values[0] <= 5) ? '#34eba1' :
+                                                    (values[0] > 5 && values[0] <= 6) ? '#34baeb' :
+                                                    (values[0] > 6 && values[0] <= 7) ? '#3455eb' :
+                                                    (values[0] > 7 && values[0] <= 8) ? '#a134eb' :
+                                                    null,
                 });
                 //layer.addTo(map);
                 map.addLayer(layer);
