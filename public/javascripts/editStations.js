@@ -5,6 +5,8 @@
   * every time the event (new marker or polygon drawn) happens.
   */
  map.on('draw:created', function(event) {
+    getIso();
+    console.log("Isochrone");
 
     console.log(event.layerType)
     // add a temporal marker or polygon to that map

@@ -39,3 +39,26 @@ function addMapboxTileLayer(mapObj) {
 function addOSMTileLayer(mapObj) {
     return new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'}).addTo(mapObj);
 }
+
+
+
+
+// Create constants to use in getIso()
+const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
+const lon = 7.6252;
+const lat = 51.9617;
+const profile = 'cycling'; // Set the default routing profile
+const minutes = 10; // Set the default duration
+
+// Create a function that sets up the Isochrone API query then makes an fetch call
+async function getIso() {
+  const query = await fetch(
+    `${urlBase}${profile}/${lon},${lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
+    { method: 'GET' }
+  );
+  const data = await query.json();
+  console.log("Isochrone function");
+  console.log(data);
+}
+
+
