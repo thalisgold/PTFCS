@@ -5,8 +5,6 @@
   * every time the event (new marker or polygon drawn) happens.
   */
  map.on('draw:created', function(event) {
-    getIso();
-    console.log("Isochrone");
 
     console.log(event.layerType)
     // add a temporal marker or polygon to that map
@@ -69,22 +67,22 @@
      *                  -> If not, use the entered description or set 'Keine Informationen vorhanden' as description, if no description was given. 
      */ 
     sendButton.addEventListener('click', function(){
-        // var name = document.getElementById("name").value;
-        // var url = document.getElementById("url").value;
-        // var beschreibung = document.getElementById("beschreibung").value;
-        // var type = event.layerType;
-
         // LayerType validation
         if(event.layerType == "marker") {
-            var transportationType = $('#myForm input').on('change', function() {alert($('input[name=transportationType]:checked', '#myForm').val()); });
+            var transportationType = $("input[name='transportationType']:checked").val();
+            if (transportationType == 'F') {
+                var profile = "driving";
+            }
+            else if (transportationType == 'L') {
+                profile = "walking";
+            }
+                console.log("transportationType:"+ profile);
             var minutes = document.getElementById("zeitspanne").value;
             //var stationType = document.getElementById("beschreibung").value;
             var numberStaions = document.getElementById("anzahlLadestation").value;
             var coords = event.layer._latlng;
             console.log(minutes)
             const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            const profile = 'driving'; // Set the default routing profile
-            //const minutes = 20; // Set the default duration
             var coords = event.layer._latlng;
             console.log(coords);
             async function getIso() {
