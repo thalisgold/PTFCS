@@ -57,7 +57,6 @@
  
     // variable that contains the "send"-button HTML-object
     let sendButton = document.getElementById("send");
-        
     /**
      * Event-listener that listens to a 'click'-event on the send-button. The function that gets called when the event happens,
      * takes all the values of the popup-form, validates the entries, builds a geojson-string and sends it to the server.
@@ -93,9 +92,13 @@
                 const data = await query.json();
                 console.log(data.features[0]);
                 L.geoJSON(data.features[0]).addTo(map);
+                var isoGeometry = data.features[0].geometry.coordinates[0];
+                console.log(ladebedarfsSzenarienLayer[0]);
+                console.log(isoGeometry);
               }
             getIso();
         }
+
         // else {
         //     var coords = event.layer._latlngs[0];
         // }

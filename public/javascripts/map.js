@@ -39,3 +39,41 @@ function addMapboxTileLayer(mapObj) {
 function addOSMTileLayer(mapObj) {
     return new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'}).addTo(mapObj);
 }
+
+/**
+ * Function, that fetches all urls of the tifs to generate the three default scenarios as layers
+ * @param {Array} url_array - array that contains all urls to the necessary tif files.
+ */
+ async function createLayersFromURL(url_array) {
+    var scale = chroma.scale("RdYlGn") // choose color scale
+    // set default variables (for all scenarios we want the same color scale to make it comparable, so we take the min and max of all scenarios)
+    var min = 1;
+    var max = 9;
+    var range = max - min;
+    for (let i = 0; i < url_array.length; i++) {
+        try {
+            var response = await fetch(url_array[i]);
+            var arrayBuffer = await response.arrayBuffer();
+            var georaster = await parseGeoraster(arrayBuffer);
+            var layer = new GeoRasterLayer({
+                georaster: georaster,
+                opacity: 0.7,
+                pixelValuesToColorFn: function(pixelValues) {
+                    var pixelValue = pixelValues[0]; // there's just one band in this raster
+                    if (pixelValue === NaN) return null; // if NaN is the value, don't return any colour
+                    var scaledPixelValue = 1 - ((pixelValue - min) / range); // our color scale is Red-Yellow-Green. Since we want low values to be green, we have to substract the calculated value from 1.
+                    var color = scale(scaledPixelValue).hex();
+                    return color;
+                  },
+            });
+            ladebedarfsSzenarienLayer.push(layer); //push the layer into this array
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+    var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
+                                    "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
+                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
+    L.control.layers(ladebedarfs_szenarien).addTo(map);
+}
