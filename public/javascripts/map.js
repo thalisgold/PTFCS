@@ -47,7 +47,7 @@ function addOSMTileLayer(mapObj) {
  async function createLayersFromURL(url_array) {
     var scale = chroma.scale("RdYlGn") // choose color scale
     // set default variables (for all scenarios we want the same color scale to make it comparable, so we take the min and max of all scenarios)
-    var min = 1;
+    var min = 0;
     var max = 9;
     var range = max - min;
     for (let i = 0; i < url_array.length; i++) {
@@ -74,6 +74,7 @@ function addOSMTileLayer(mapObj) {
     }
     var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
                                     "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
-                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
+                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2],
+                                    "Ladebedarf 2022_reduziert": ladebedarfsSzenarienLayer[3]}
     L.control.layers(ladebedarfs_szenarien).addTo(map);
 }

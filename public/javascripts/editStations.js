@@ -6,7 +6,7 @@
   */
  map.on('draw:created', function(event) {
 
-    console.log(event.layerType)
+    // console.log(event.layerType)
     // add a temporal marker or polygon to that map
     var tempMarker = event.layer.addTo(map);
     
@@ -73,17 +73,23 @@
 
         // LayerType validation
         if(event.layerType == "marker") {
-            var transportationType = $('#myForm input').on('change', function() {alert($('input[name=transportationType]:checked', '#myForm').val()); });
+            // LayerType validation
+            if(event.layerType == "marker") {
+                var transportationType = $("input[name='transportationType']:checked").val();
+                if (transportationType == 'F') {
+                    var profile = "driving";
+                    console.log("transportationType:" + profile);
+                }
+                else if (transportationType == 'L') {
+                    profile = "walking";
+                    console.log("transportationType:"+ profile);
+                }
+            }
             var minutes = document.getElementById("zeitspanne").value;
             //var stationType = document.getElementById("beschreibung").value;
             var numberStaions = document.getElementById("anzahlLadestation").value;
             var coords = event.layer._latlng;
-            console.log(minutes)
             const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            const profile = 'driving'; // Set the default routing profile
-            //const minutes = 20; // Set the default duration
-            var coords = event.layer._latlng;
-            console.log(coords);
             async function getIso() {
                 const query = await fetch(
                   `${urlBase}${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
@@ -92,9 +98,8 @@
                 const data = await query.json();
                 console.log(data.features[0]);
                 L.geoJSON(data.features[0]).addTo(map);
-                var isoGeometry = data.features[0].geometry.coordinates[0];
-                console.log(ladebedarfsSzenarienLayer[0]);
-                console.log(isoGeometry);
+                var isochroneGeom = data.features[0].geometry.coordinates[0];
+                // console.log(ladebedarfsSzenarienLayer[0]);
               }
             getIso();
         }

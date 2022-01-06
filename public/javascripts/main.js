@@ -31,9 +31,10 @@ map.addControl(drawControl);
 map.addLayer(drawnItems);
 
 // urls from the tifs from the three default scenarios
-var url_array = ["http://localhost:3000/ladebedarf/ladebedarf_rasterized_2022_EPSG_32632.tif",
-                 "http://localhost:3000/ladebedarf/ladebedarf_rasterized_2025_EPSG_32632.tif", 
-                 "http://localhost:3000/ladebedarf/ladebedarf_rasterized_2030_EPSG_32632.tif"]
+var url_array = ["http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632.tif",
+                 "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632.tif", 
+                 "http://localhost:3000/ladebedarf/3_ladebedarf_rasterized_2030_EPSG_32632.tif",
+                 "http://localhost:3000/ladebedarf/outcomeRaster.tif"]
 
 // array where the layers should be stored
 var ladebedarfsSzenarienLayer =[];
@@ -41,4 +42,4 @@ var ladebedarfsSzenarienLayer =[];
 // create the layers for all three scenarios
 createLayersFromURL(url_array);
 
-console.log(ladebedarfsSzenarienLayer);
+// console.log(ladebedarfsSzenarienLayer);
