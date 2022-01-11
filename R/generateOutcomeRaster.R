@@ -40,16 +40,19 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, hours, hpc){
     hours <- hours
   }
   area <- st_area(isochrone)
+  # Area darf nicht pixel >0 enthalten
   pixel <- clean_units(area/100)
   subtrahend <- hours/pixel
   
   # crop a new raster to the extent of the isochrone
   rasterCropped <- mask(raster, isochrone)
   
+  
   # subtract the subtrahend calculated before from the cropped raster
   # Abfangen: wenn Werte kleiner 0 sind müssen sie aus der Berechnung rausgenommen werden, damit der bedarf dann auf die restlichen zellen verteilt werden kann
   # Wie viel ziehen wir ab? Wenn man auf fläche bezieht sieht man kaum einen unterschied. was ist realistisch?
   rasterCropped <- rasterCropped - subtrahend
+  values(raster)[values(raster) < 0] = 0
   
   # merge the cropped raster with the changed value with the default raster
   outcomeRaster <- cover(rasterCropped, raster)
@@ -57,7 +60,6 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, hours, hpc){
   # save the raster
   writeRaster(outcomeRaster, "./public/ladebedarf/outcomeRaster3.tif", overwrite = TRUE)
 }
-
 
 # Set variables:
 isochronePath <- "./public/isochrones/isochroneMedium.geojson"
