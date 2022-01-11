@@ -66,25 +66,16 @@
      *                  -> If not, use the entered description or set 'Keine Informationen vorhanden' as description, if no description was given. 
      */ 
     sendButton.addEventListener('click', function(){
-        // var name = document.getElementById("name").value;
-        // var url = document.getElementById("url").value;
-        // var beschreibung = document.getElementById("beschreibung").value;
-        // var type = event.layerType;
-
         // LayerType validation
         if(event.layerType == "marker") {
-            // LayerType validation
-            if(event.layerType == "marker") {
-                var transportationType = $("input[name='transportationType']:checked").val();
-                if (transportationType == 'F') {
-                    var profile = "driving";
-                    console.log("transportationType:" + profile);
-                }
-                else if (transportationType == 'L') {
-                    profile = "walking";
-                    console.log("transportationType:"+ profile);
-                }
+            var transportationType = $("input[name='transportationType']:checked").val();
+            if (transportationType == 'F') {
+                var profile = "driving";
             }
+            else if (transportationType == 'L') {
+                profile = "walking";
+            }
+                console.log("transportationType:"+ profile);
             var minutes = document.getElementById("zeitspanne").value;
             //var stationType = document.getElementById("beschreibung").value;
             var numberStaions = document.getElementById("anzahlLadestation").value;
