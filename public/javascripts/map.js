@@ -60,7 +60,7 @@ function addOSMTileLayer(mapObj) {
                 opacity: 0.7,
                 pixelValuesToColorFn: function(pixelValues) {
                     var pixelValue = pixelValues[0]; // there's just one band in this raster
-                    if (pixelValue === NaN) return null; // if NaN is the value, don't return any colour
+                    if (isNaN(pixelValue)) return null; // if NaN is the value, don't return any colour
                     var scaledPixelValue = 1 - ((pixelValue - min) / range); // our color scale is Red-Yellow-Green. Since we want low values to be green, we have to substract the calculated value from 1.
                     var color = scale(scaledPixelValue).hex();
                     return color;
