@@ -75,10 +75,13 @@
             else if (transportationType == 'L') {
                 profile = "walking";
             }
-                console.log("transportationType:"+ profile);
+            console.log("transportationType:"+ profile);
             var minutes = document.getElementById("zeitspanne").value;
             //var stationType = document.getElementById("beschreibung").value;
-            var numberStaions = document.getElementById("anzahlLadestation").value;
+            var stationType = $("input[name='stationType']:checked").val();
+            console.log("Station Type:"+ stationType);
+            var numberStations = document.getElementById("anzahlLadestation").value;
+            console.log("numberof stations:"+ numberStations);
             var coords = event.layer._latlng;
             const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
             async function getIso() {
