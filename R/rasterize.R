@@ -10,21 +10,21 @@ rm(list = ls())
 
 getwd()
 
-setwd("C:/Users/thali/Documents/GitHub/PTFCS")
+#setwd("C:/Users/thali/Documents/GitHub/PTFCS")
 
 #setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-#setwd("~/Documents/Studium/5. Semester/Aufladen in Muenster/PTFCS")
+setwd("~/Documents/Studium/5. Semester/Aufladen in MÃ¼nster/PTFCS/")
 
-ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/NRW_Münster_2022.geojson")
-siedlungsflächen <- read_sf("./Daten StandortTOOL Szenarien/Siedlungsflächen Münster.gpkg")
-range <- read_sf("./Daten StandortTOOL Szenarien/range.geojson")
+ladebedarf <- read_sf("./Daten StandortTOOL Szenarien/Originaldaten/NRW_MÃ¼nster_2022.geojson")
+siedlungsflÃ¤chen <- read_sf("./Daten StandortTOOL Szenarien/SiedlungsflÃ¤chen MÃ¼nster_32632.gpkg")
+#range <- read_sf("./Daten StandortTOOL Szenarien/range.geojson")
 
 
 ladebedarf <- st_transform(ladebedarf, st_crs("EPSG:32632"))
-siedlungsflächen <- st_transform(siedlungsflächen, st_crs("EPSG:32632"))
+siedlungsflÃ¤chen <- st_transform(siedlungsflÃ¤chen, st_crs("EPSG:32632"))
 range <- st_transform(range, st_crs("EPSG:32632"))
 
-ladebedarf_intersected = st_intersection(ladebedarf, siedlungsflächen)
+ladebedarf_intersected = st_intersection(ladebedarf, siedlungsflÃ¤chen)
 ladebedarf_intersected_2 = st_intersection(ladebedarf_intersected, range)
 
 mapview(ladebedarf_intersected)
@@ -54,3 +54,5 @@ muenster_ladebedarf_4326
 
 mapview(muenster_ladebedarf_4326)
 writeRaster(muenster_ladebedarf_4326, "ladebedarf_rasterized_2022_EPSG_4326.tif")
+
+
