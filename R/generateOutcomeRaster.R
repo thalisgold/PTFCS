@@ -22,7 +22,12 @@ clean_units <- function(x){
 # Function that gets the EPSG code from a UTM zone
 # All EPSG codes to be returned are in UTM coordinates of WGS84
 # parameters: - UTM Zone (Integer)
-generateOutcomeRaster <- function(isochronePath, rasterPath, hours, hpc){
+generateOutcomeRaster <- function(isochronePath, rasterPath, stationType, numberStations){
+  hours_per_station <- 70
+  hpc_factor <- 4
+  stationType <- stationType
+  numberStations <- numberStations
+  
   # load the isochrone and reproject it to EPSG 32632
   isochrone <- read_sf(isochronePath)
   isochrone <- st_transform(isochrone, st_crs("EPSG:32632"))
@@ -33,16 +38,18 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, hours, hpc){
   #   raster <- st_transform(raster, st_crs("EPSG:32632"))
   # }
   
-  # Calcute by how much we have to reduce depending on type and hours of the station
-  if(hpc){
-    hours <- hours*5
-  }else{
-    hours <- hours
+  # Calcute by how much we have to reduce the need depending on the type of the station
+  if (stationType == "SL") {
+    hours_per_station <- hours_per_station * hpc_factor
   }
+  
   area <- st_area(isochrone)
-  # Area darf nicht pixel >0 enthalten
+  area
+  # Area darf nicht pixel < 0 enthalten
   pixel <- clean_units(area/100)
-  subtrahend <- hours/pixel
+  pixel
+  subtrahend_minutes_per_pixel <- ((hours_per_station * numberStations)/pixel) * 60
+  subtrahend_minutes_per_pixel
   
   # crop a new raster to the extent of the isochrone
   rasterCropped <- mask(raster, isochrone)
@@ -51,21 +58,22 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, hours, hpc){
   # subtract the subtrahend calculated before from the cropped raster
   # Abfangen: wenn Werte kleiner 0 sind müssen sie aus der Berechnung rausgenommen werden, damit der bedarf dann auf die restlichen zellen verteilt werden kann
   # Wie viel ziehen wir ab? Wenn man auf fläche bezieht sieht man kaum einen unterschied. was ist realistisch?
-  rasterCropped <- rasterCropped - subtrahend
-  values(raster)[values(raster) < 0] = 0
+  rasterCropped <- rasterCropped - subtrahend_minutes_per_pixel
+  values(rasterCropped)[values(rasterCropped) < 0] = 0
   
   # merge the cropped raster with the changed value with the default raster
   outcomeRaster <- cover(rasterCropped, raster)
   
   # save the raster
-  writeRaster(outcomeRaster, "./public/ladebedarf/outcomeRaster3.tif", overwrite = TRUE)
+  writeRaster(outcomeRaster, "./public/ladebedarf/outcomeRaster.tif", overwrite = TRUE)
 }
 
 # Set variables:
-isochronePath <- "./public/isochrones/isochroneMedium.geojson"
-rasterPath <- "./public/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632.tif"
-hours <- 1000
-hpc <- TRUE
+isochronePath <- "./public/isochrones/isochroneBig.geojson"
+rasterPath <- "./public/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif"
+stationType <- "SL"
+numberStations <- 1
 
-outcomeRaster <- generateOutcomeRaster(isochronePath, rasterPath, hours, hpc)
+outcomeRaster <- generateOutcomeRaster(isochronePath, rasterPath, stationType, numberStations)
 mapview(outcomeRaster)
+

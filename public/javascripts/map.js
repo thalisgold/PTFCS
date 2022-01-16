@@ -48,7 +48,7 @@ function addOSMTileLayer(mapObj) {
     var scale = chroma.scale("RdYlGn") // choose color scale
     // set default variables (for all scenarios we want the same color scale to make it comparable, so we take the min and max of all scenarios)
     var min = 0;
-    var max = 9;
+    var max = 3.082362;
     var range = max - min;
     for (let i = 0; i < url_array.length; i++) {
         try {
@@ -60,7 +60,10 @@ function addOSMTileLayer(mapObj) {
                 opacity: 0.7,
                 pixelValuesToColorFn: function(pixelValues) {
                     var pixelValue = pixelValues[0]; // there's just one band in this raster
-                    if (isNaN(pixelValue)) return null; // if NaN is the value, don't return any colour
+                    if (isNaN(pixelValue)) 
+                        return null; // if NaN is the value, don't return any colour
+                    else if (pixelValue == -3.3999999521443642e+38) 
+                        return null; // or if not data value is = -3.3999999521443642e+38 , don't return any colour
                     var scaledPixelValue = 1 - ((pixelValue - min) / range); // our color scale is Red-Yellow-Green. Since we want low values to be green, we have to substract the calculated value from 1.
                     var color = scale(scaledPixelValue).hex();
                     return color;
@@ -74,7 +77,7 @@ function addOSMTileLayer(mapObj) {
     }
     var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
                                     "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
-                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2],
-                                    "Ladebedarf 2022_reduziert": ladebedarfsSzenarienLayer[3]}
+                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
     L.control.layers(ladebedarfs_szenarien).addTo(map);
+    //console.log(ladebedarfs_szenarien)
 }
