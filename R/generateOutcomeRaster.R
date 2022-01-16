@@ -66,11 +66,15 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, stationType, number
   print(paste("Abzuziehender Ladebedarf in Minuten/Pixel:", subtrahend_minutes_per_pixel, sep =" "))
   
   # subtract the subtrahend calculated before from the cropped raster
+  # rasterCropped <- 0
+  # rasterCropped <- rasterCropped - 10
+  # rasterCropped
   rasterCropped <- rasterCropped - subtrahend_minutes_per_pixel
+  writeRaster(rasterCropped, "./public/ladebedarf/mask.tif", overwrite = TRUE)
   
   # Werte, die durch den Abzug auf unter 0 gefallen sind, müssen auf 0 gesetzt werden.
   values(rasterCropped)[values(rasterCropped) < 0] = 0
-  
+  rasterCropped
   # merge the cropped raster with the changed value with the default raster
   outcomeRaster <- cover(rasterCropped, raster)
   

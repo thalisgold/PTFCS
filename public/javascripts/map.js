@@ -48,7 +48,7 @@ function addOSMTileLayer(mapObj) {
     var scale = chroma.scale("RdYlGn") // choose color scale
     // set default variables (for all scenarios we want the same color scale to make it comparable, so we take the min and max of all scenarios)
     var min = 0;
-    var max = 3.082362;
+    var max = 3.716505
     var range = max - min;
     for (let i = 0; i < url_array.length; i++) {
         try {
@@ -75,9 +75,20 @@ function addOSMTileLayer(mapObj) {
             console.log(error)
         }
     }
-    var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
-                                    "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
-                                    "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
-    L.control.layers(ladebedarfs_szenarien).addTo(map);
+
+    // if(document.getElementById('radio1').checked) {
+    //     map.addLayer(ladebedarfsSzenarienLayer[0]);
+    //   }
+    // else if(document.getElementById('radio2').checked) {
+    //     map.addLayer(ladebedarfsSzenarienLayer[1]);
+    //   }
+    // else if(document.getElementById('radio3').checked) {
+    //     map.addLayer(ladebedarfsSzenarienLayer[2]);
+    //   }
+    map.addLayer(ladebedarfsSzenarienLayer[0]);
+    // var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
+    //                                 "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
+    //                                 "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
+    // L.control.layers(ladebedarfs_szenarien).addTo(map);
     //console.log(ladebedarfs_szenarien)
 }
