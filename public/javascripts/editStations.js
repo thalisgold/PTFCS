@@ -26,9 +26,6 @@ map.on('draw:created', function(event) {
                                     <input type="range" min="1" max="20" value="10" class="slider" id="zeitspanne" oninput="this.nextElementSibling.value = this.value">\
                                     <output>10</output>\
                                 </div><br>\
-                                <div style="height: 25px;">\
-                                    <button id="showIso" type="button">Show Isochrone</button>\
-                                </div>\
                                 <div>\
                                     <br>Ladestationstyp:</br><br>\
                                     <input type="radio" id="NL" name="stationType" value="NL">\
@@ -43,6 +40,9 @@ map.on('draw:created', function(event) {
                                 </div><br>\
                                 <div style="height: 25px;">\
                                     <button id="send" type="button">Send</button>\
+                                </div><br>\
+                                <div style="height: 25px;">\
+                                    <button id="delete" type="button">Delete</button>\
                                 </div>\
                             </form>';
  
@@ -58,19 +58,15 @@ map.on('draw:created', function(event) {
          tempMarker.remove();
     })
  
+    
     // variable that contains the "send"-button HTML-object
     let sendButton = document.getElementById("send");
-    /**
-     * Event-listener that listens to a 'click'-event on the send-button. The function that gets called when the event happens,
-     * takes all the values of the popup-form, validates the entries, builds a geojson-string and sends it to the server.
-     * Validation:  - Check if there is a name entry
-     *              - Check if the url entry contains a wikipedia url. 
-     *                  -> If yes, the wikipedia-API is used to get the first 3 sentences of the wikipedia article and sets it as sights description.
-     *                  -> If not, use the entered description or set 'Keine Informationen vorhanden' as description, if no description was given. 
-     */ 
-    sendButton.addEventListener('click', function(){
-        // LayerType validation
+
+    sendButton.addEventListener('click', async function(){
         if(event.layerType == "marker") {
+            // get infos from form:
+            var coords = await event.layer._latlng;
+            console.log("Coordinates:" + coords)
             var transportationType = $("input[name='transportationType']:checked").val();
             if (transportationType == 'F') {
                 var profile = "driving";
@@ -79,110 +75,14 @@ map.on('draw:created', function(event) {
                 profile = "walking";
             }
             console.log("transportationType:"+ profile);
-            var minutes = document.getElementById("zeitspanne").value;
-            //var stationType = document.getElementById("beschreibung").value;
+            var minutes = await document.getElementById("zeitspanne").value;
+            console.log("minutes:" + minutes)
             var stationType = $("input[name='stationType']:checked").val();
             console.log("Station Type:"+ stationType);
-            var numberStations = document.getElementById("anzahlLadestation").value;
+            var numberStations = await document.getElementById("anzahlLadestation").value;
             console.log("numberof stations:"+ numberStations);
-            var coords = event.layer._latlng;
-            const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            async function getIso() {
-                const query = await fetch(
-                  `${urlBase}${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
-                  { method: 'GET' }
-                );
-                const data = await query.json();
-                console.log(data.features[0]);
-                L.geoJSON(data.features[0]).addTo(map);
-                var isochroneGeom = data.features[0].geometry.coordinates[0];
-                // console.log(ladebedarfsSzenarienLayer[0]);
-              }
-            getIso();
-        }
-        
-            // var minutes = document.getElementById("zeitspanne").value;
-            //var stationType = document.getElementById("beschreibung").value;
-            // var numberStaions = document.getElementById("anzahlLadestation").value;
-            // var coords = event.layer._latlng;
-            // const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            // getIso(urlBase, coords, minutes);
-    
 
-        
-
-        // else {
-        //     var coords = event.layer._latlngs[0];
-        // }
-
-        // // Name, Beschreibung and URL validation
-        // if (name == "") {
-        //     alert("Bitte geben Sie der Sehenswürdigkeit einen Namen.")
-        // }
-        // else {
-        //     var wikiSightName = getSightNameFromURL(url);
-        //     if (url.includes('wikipedia')) {
-        //         // Ajax request to wikipedia API
-        //         $.ajax({
-        //             async: false,
-        //             url: 'http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + wikiSightName + '&origin=*',
-        //             method: "GET",
-        //             success: function(data){
-        //                 console.log(data);
-        //                 var key = Object.keys(data.query.pages)[0];
-        //                 var article = data.query.pages[key].extract;
-        //                 console.log(article);
-        //                 beschreibung = article;
-        //             },
-        //             error: function () {
-        //                 alert('error')
-        //             }
-        //         })
-        //         .done()
-        //     }
-        //     else {
-        //         if (beschreibung == "") {
-        //             beschreibung = "Keine Informationen vorhanden" //möglicherweise Sync-Problem, teilw. wird der String gesetzt und teilw. nicht
-        //         } 
-        //     }
-                
-        //     // variable, that contains all necessary information about a sight as geojson string
-        //     let objectDataString = createGeoJSONString(name, url, beschreibung, coords, type);
-
-        //     // Ajax request to send sight data to server to upload it to the database
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/edit/addSight",
-        //         data: {
-        //             o: objectDataString
-        //         },
-        //         success: function (data) {
-        //             window.location.href = "/edit";
-        //         },
-        //         error: function () {
-        //             alert('error')
-        //         }
-        //     })
-        //     .done()
-        // }
-    }) 
-
-    let showIsoButton = document.getElementById("showIso");
-
-    showIsoButton.addEventListener('click', async function(){
-        if(event.layerType == "marker") {
-            var transportationType = $("input[name='transportationType']:checked").val();
-            if (transportationType == 'F') {
-                var profile = "driving";
-            }
-            else if (transportationType == 'L') {
-                profile = "walking";
-            }
-            console.log("transportationType:"+ profile);
-            var coords = await event.layer._latlng;
-            console.log(coords)
-            var minutes = await document.getElementById("zeitspanne").value;
-            console.log(minutes)
+            // get and show isochrone
             var data = await getIso(profile, coords, minutes);
             console.log(data)
             var isochrone = await data.features[0];
@@ -190,8 +90,19 @@ map.on('draw:created', function(event) {
             await isochroneGeoJSON.addTo(map);
             // var isochroneGeom = data //.features[0].geometry.coordinates[0];
             // console.log(isochroneGeom);
+
+            // variable that contains the "delete"-button HTML-object
+    let deleteButton = document.getElementById("delete");
+
+    deleteButton.addEventListener('click', async function(){
+        // map.removeLayer(isochroneGeoJSON);
+        L.geoJSON().clearLayers(isochroneGeoJSON);
+        
+    })
         }
     })
+
+    
 
  })
 

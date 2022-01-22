@@ -73,10 +73,16 @@ html
           #description.col-lg-6.col-md-12.mb-4.mb-md-0
             h5.text-uppercase Planning Tool for Charging Stations
             p
-              | Diese Website dient zum Speicher und verwalten von Sehenswürdigkeiten und dem Erstellen von Stadttouren.
-              | Beim Erstellen von Sehenswürdigkeiten können bei Angabe eines Wikipedia-Links automatisch Informationen zu der gegebenen Sehenswürdigkeit ergänzt werden.
-              | Wir behalten uns vor nicht für die Korrektheit dieser Informationen zu garantieren. 
-              | Der Webanwendung kann zudem zu beliebigen Sehenswürdigkeiten im Münsteraner Stadtgebiet die nächstgelegene Haltestelle inklusive der aktuellen Wetterverhältnisse anzeigen.
+              | Diese Website dient als Planungstool für den Ausbau der öffentlichen Ladeinfrastruktur für
+              | Elektroautos in der Stadt Münster. Es können drei Szenarien für die Jahre 2022, 2025 und 2030
+              | als Kartenlayer ausgewählt werden. Diese zeigen den jeweiligen Bedarf an noch benötigter
+              | Ladeinfrastruktur und beruhen auf Modellierungen des 
+              a.text-dark(href='https://www.standorttool.de/strom/ladebedarfe/') StandortTOOLs
+              | . Es können dann mithilfe der Marker neue Stationen gesetzt werden. Für diese Stationen wird dann
+              | deren Einflussbereich ermittelt und der Bedarf im jeweiligen Gebiet reduziert. Dabei können die
+              | folgenden Parameter zur Bestimmung des Einflussbereichs und der Reduzierung angegeben werden:
+              | Erreichbarkeit zu Fuß oder mit dem Auto inklusive Angabe der Zeit in Minuten, Anzahl der Stationen
+              | und der Stationstyp (Normalladen/Schnellladen).
           // Grid column
           #contact.col-lg-6.col-md-12.mb-4.mb-md-0
             h5.text-uppercase Kontakt
@@ -97,6 +103,6 @@ html
       // Grid container
       // Copyright
       .text-center.p-3(style='background-color: rgba(0, 0, 0, 0.2);')
-        | &copy; 2021 Copyright: 
+        | &copy; 2022 Copyright: 
         a.text-dark(href='https://www.muenster.de/') Stadt Münster
       // Copyright
