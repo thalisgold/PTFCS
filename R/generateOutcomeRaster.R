@@ -8,6 +8,7 @@ rm(list = ls())
 getwd()
 
 setwd("C:/Users/thali/Documents/GitHub/PTFCS")
+setwd("~/Documents/Studium/5. Semester/Aufladen in MÃ¼nster/PTFCS/")
 
 # Set variables:
 isochronePath <- "./public/isochrones/isochroneBig.geojson"
@@ -72,7 +73,7 @@ generateOutcomeRaster <- function(isochronePath, rasterPath, stationType, number
   rasterCropped <- rasterCropped - subtrahend_minutes_per_pixel
   writeRaster(rasterCropped, "./public/ladebedarf/mask.tif", overwrite = TRUE)
   
-  # Werte, die durch den Abzug auf unter 0 gefallen sind, müssen auf 0 gesetzt werden.
+  # Werte, die durch den Abzug auf unter 0 gefallen sind, m?ssen auf 0 gesetzt werden.
   values(rasterCropped)[values(rasterCropped) < 0] = 0
   rasterCropped
   # merge the cropped raster with the changed value with the default raster
