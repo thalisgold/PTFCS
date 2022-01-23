@@ -26,6 +26,9 @@ map.on('draw:created', function(event) {
                                     <input type="range" min="1" max="20" value="10" class="slider" id="zeitspanne" oninput="this.nextElementSibling.value = this.value">\
                                     <output>10</output>\
                                 </div><br>\
+                                <div style="height: 25px;">\
+                                    <button id="showIso" type="button">Show Isochrone</button>\
+                                </div>\
                                 <div>\
                                     <br>Ladestationstyp:</br><br>\
                                     <input type="radio" id="NL" name="stationType" value="NL">\
@@ -82,7 +85,29 @@ map.on('draw:created', function(event) {
             var numberStations = await document.getElementById("anzahlLadestation").value;
             console.log("numberof stations:"+ numberStations);
 
-            // get and show isochrone
+            // get isochrone
+            var isochroneGeom = data //.features[0].geometry.coordinates[0];
+            console.log(isochroneGeom);
+
+        }
+    })
+
+    let showIsoButton = document.getElementById("showIso");
+
+    showIsoButton.addEventListener('click', async function(){
+        if(event.layerType == "marker") {
+            var transportationType = $("input[name='transportationType']:checked").val();
+            if (transportationType == 'F') {
+                var profile = "driving";
+            }
+            else if (transportationType == 'L') {
+                profile = "walking";
+            }
+            console.log("transportationType:"+ profile);
+            var coords = await event.layer._latlng;
+            console.log(coords)
+            var minutes = await document.getElementById("zeitspanne").value;
+            console.log(minutes)
             var data = await getIso(profile, coords, minutes);
             console.log(data)
             var isochrone = await data.features[0];
@@ -90,19 +115,8 @@ map.on('draw:created', function(event) {
             await isochroneGeoJSON.addTo(map);
             // var isochroneGeom = data //.features[0].geometry.coordinates[0];
             // console.log(isochroneGeom);
-
-            // variable that contains the "delete"-button HTML-object
-    let deleteButton = document.getElementById("delete");
-
-    deleteButton.addEventListener('click', async function(){
-        // map.removeLayer(isochroneGeoJSON);
-        L.geoJSON().clearLayers(isochroneGeoJSON);
-        
-    })
         }
     })
-
-    
 
  })
 
