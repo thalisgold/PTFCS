@@ -1,10 +1,10 @@
 "use strict"
 
- /**
-  * Event-listener that listens to a leaflet draw event. The function gets called
-  * every time the event (new marker or polygon drawn) happens.
-  */
- map.on('draw:created', function(event) {
+/**
+ * Event-listener that listens to a leaflet draw event. The function gets called
+ * every time the event (new marker or polygon drawn) happens.
+ */
+map.on('draw:created', function(event) {
 
     // console.log(event.layerType)
     // add a temporal marker or polygon to that map
@@ -26,6 +26,9 @@
                                     <input type="range" min="1" max="20" value="10" class="slider" id="zeitspanne" oninput="this.nextElementSibling.value = this.value">\
                                     <output>10</output>\
                                 </div><br>\
+                                <div style="height: 25px;">\
+                                    <button id="showIso" type="button">Show Isochrone</button>\
+                                </div>\
                                 <div>\
                                     <br>Ladestationstyp:</br><br>\
                                     <input type="radio" id="NL" name="stationType" value="NL">\
@@ -67,33 +70,16 @@
      */ 
     sendButton.addEventListener('click', function(){
         // LayerType validation
-        if(event.layerType == "marker") {
-            var transportationType = $("input[name='transportationType']:checked").val();
-            if (transportationType == 'F') {
-                var profile = "driving";
-            }
-            else if (transportationType == 'L') {
-                profile = "walking";
-            }
-                console.log("transportationType:"+ profile);
-            var minutes = document.getElementById("zeitspanne").value;
+        
+            // var minutes = document.getElementById("zeitspanne").value;
             //var stationType = document.getElementById("beschreibung").value;
-            var numberStaions = document.getElementById("anzahlLadestation").value;
-            var coords = event.layer._latlng;
-            const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            async function getIso() {
-                const query = await fetch(
-                  `${urlBase}${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
-                  { method: 'GET' }
-                );
-                const data = await query.json();
-                console.log(data.features[0]);
-                L.geoJSON(data.features[0]).addTo(map);
-                var isochroneGeom = data.features[0].geometry.coordinates[0];
-                // console.log(ladebedarfsSzenarienLayer[0]);
-              }
-            getIso();
-        }
+            // var numberStaions = document.getElementById("anzahlLadestation").value;
+            // var coords = event.layer._latlng;
+            // const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
+            // getIso(urlBase, coords, minutes);
+    
+
+        
 
         // else {
         //     var coords = event.layer._latlngs[0];
@@ -150,4 +136,53 @@
         //     .done()
         // }
     }) 
+
+    let showIsoButton = document.getElementById("showIso");
+
+    showIsoButton.addEventListener('click', async function(){
+        if(event.layerType == "marker") {
+            var transportationType = $("input[name='transportationType']:checked").val();
+            if (transportationType == 'F') {
+                var profile = "driving";
+            }
+            else if (transportationType == 'L') {
+                profile = "walking";
+            }
+            console.log("transportationType:"+ profile);
+            var coords = await event.layer._latlng;
+            console.log(coords)
+            var minutes = await document.getElementById("zeitspanne").value;
+            console.log(minutes)
+            var data = await getIso(profile, coords, minutes);
+            console.log(data)
+            var isochrone = await data.features[0];
+            var isochroneGeoJSON = await L.geoJSON(isochrone)
+            await isochroneGeoJSON.addTo(map);
+            // var isochroneGeom = data //.features[0].geometry.coordinates[0];
+            // console.log(isochroneGeom);
+        }
+    })
+
  })
+
+
+ 
+
+
+async function getIso(profile, coords, minutes) {
+    const query = await fetch(
+        `https://api.mapbox.com/isochrone/v1/mapbox/${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
+        { method: 'GET' }
+    );
+    let data = await query.json();
+    // console.log(data);
+    return data;
+
+    // console.log(data.features[0]);
+    // let isochrone = data.features[0];
+    // var isochroneGeoJSON = L.geoJSON(isochrone)
+    // isochroneGeoJSON.addTo(map);
+    // var isochroneGeom = data //.features[0].geometry.coordinates[0];
+    // console.log(isochroneGeom);
+    // console.log(ladebedarfsSzenarienLayer[0]);
+}
