@@ -1,5 +1,5 @@
 "use strict"
-
+// const APIIURL = "http://localhost:3000"
 /**
  * Event-listener that listens to a leaflet draw event. The function gets called
  * every time the event (new marker or polygon drawn) happens.
@@ -68,73 +68,75 @@ map.on('draw:created', function(event) {
      *                  -> If yes, the wikipedia-API is used to get the first 3 sentences of the wikipedia article and sets it as sights description.
      *                  -> If not, use the entered description or set 'Keine Informationen vorhanden' as description, if no description was given. 
      */ 
-    sendButton.addEventListener('click', function(){
-        // LayerType validation
-        
-            // var minutes = document.getElementById("zeitspanne").value;
-            //var stationType = document.getElementById("beschreibung").value;
-            // var numberStaions = document.getElementById("anzahlLadestation").value;
-            // var coords = event.layer._latlng;
-            // const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
-            // getIso(urlBase, coords, minutes);
+    sendButton.addEventListener('click', async function(){
+        if(event.layerType == "marker") {
     
+            //STATION
+            // station type
+            var stationType = $("input[name='stationType']:checked").val();
+            console.log(stationType)
+            // minutes
+            var minutes = await document.getElementById("zeitspanne").value;
+            console.log(minutes)
+            // number of stations            
+            var numberStations = await document.getElementById("anzahlLadestation").value;
 
-        
+            //ISOCHRONE
+            // profile
+            var transportationType = $("input[name='transportationType']:checked").val();
+            if (transportationType == 'F') {
+                var profile = "driving";
+            }
+            else if (transportationType == 'L') {
+                profile = "walking";
+            }
+            console.log("transportationType:"+ profile);
+            // marker
+            var coords = await event.layer._latlng;
+            console.log(coords);
+            // isochrone as GeoJSON
+            var data = await getIso(profile, coords, minutes);
+            console.log(data)
+            var isochrone = await data.features[0];
+            console.log(isochrone);
+            var isochroneGeoJSON = L.geoJSON(isochrone)
+            //var isochroneGeom = data.features[0].geometry.coordinates[0];
+            // console.log(isochroneGeom);
 
-        // else {
-        //     var coords = event.layer._latlngs[0];
-        // }
 
-        // // Name, Beschreibung and URL validation
-        // if (name == "") {
-        //     alert("Bitte geben Sie der Sehenswürdigkeit einen Namen.")
-        // }
-        // else {
-        //     var wikiSightName = getSightNameFromURL(url);
-        //     if (url.includes('wikipedia')) {
-        //         // Ajax request to wikipedia API
-        //         $.ajax({
-        //             async: false,
-        //             url: 'http://de.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exintro=true&exsentences=3&explaintext=true&titles=' + wikiSightName + '&origin=*',
-        //             method: "GET",
-        //             success: function(data){
-        //                 console.log(data);
-        //                 var key = Object.keys(data.query.pages)[0];
-        //                 var article = data.query.pages[key].extract;
-        //                 console.log(article);
-        //                 beschreibung = article;
-        //             },
-        //             error: function () {
-        //                 alert('error')
-        //             }
-        //         })
-        //         .done()
-        //     }
-        //     else {
-        //         if (beschreibung == "") {
-        //             beschreibung = "Keine Informationen vorhanden" //möglicherweise Sync-Problem, teilw. wird der String gesetzt und teilw. nicht
-        //         } 
-        //     }
-                
-        //     // variable, that contains all necessary information about a sight as geojson string
-        //     let objectDataString = createGeoJSONString(name, url, beschreibung, coords, type);
-
-        //     // Ajax request to send sight data to server to upload it to the database
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/edit/addSight",
-        //         data: {
-        //             o: objectDataString
-        //         },
-        //         success: function (data) {
-        //             window.location.href = "/edit";
-        //         },
-        //         error: function () {
-        //             alert('error')
-        //         }
-        //     })
-        //     .done()
-        // }
+            let objectDataString = createGeoJSONString(profile, coords, isochrone, stationType, minutes, numberStations);
+            console.log(objectDataString);
+            let jsonData = {};
+            jsonData.o = objectDataString;
+            
+            // send POST to start calculations
+            this.http.post(APIURL + '/addStation', jsonData).subscribe({
+                next: async (data) => {
+                    console.log(data);
+                },
+                error: (error) => {
+                    console.error('There was an error!', error);
+                },
+            });
+  
+  
+            // Ajax request to send sight data to server to upload it to the database
+            //  $.ajax({
+            //     type: "POST",
+            //     url: "/addStation",
+            //     data: {
+            //         o: objectDataString
+            //     },
+            //     success: function (data) {
+            //         // window.location.href = "/";
+            //     },
+            //     error: function () {
+            //         alert('error')
+            //     }
+            // })
+            // .done()
+            
+        }
     }) 
 
     let showIsoButton = document.getElementById("showIso");
@@ -165,24 +167,46 @@ map.on('draw:created', function(event) {
 
  })
 
-
- 
-
-
 async function getIso(profile, coords, minutes) {
     const query = await fetch(
         `https://api.mapbox.com/isochrone/v1/mapbox/${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
         { method: 'GET' }
     );
     let data = await query.json();
-    // console.log(data);
     return data;
-
-    // console.log(data.features[0]);
-    // let isochrone = data.features[0];
-    // var isochroneGeoJSON = L.geoJSON(isochrone)
-    // isochroneGeoJSON.addTo(map);
-    // var isochroneGeom = data //.features[0].geometry.coordinates[0];
-    // console.log(isochroneGeom);
-    // console.log(ladebedarfsSzenarienLayer[0]);
 }
+
+/**
+ * This function creates a GeoJSON string from informations about a sight
+ * @param {String} name - name of a sight
+ * @param {String} url  - URL of a sight
+ * @param {String} beschreibung  - short description of a sight
+ * @param {Object} coords - coordinates of a sight {"lat":, "lng":}
+ * @param {String} type - type of a sight
+ * @returns - GeoJSON string
+ */
+ function createGeoJSONString(profile, coords, isochrone, stationType, minutes, numberStations) {
+    // LayerType validation
+    let geoJSON =`{
+        "type": "FeatureCollection",
+        "features": [
+        {
+            "type": "Feature", 
+            "properties": {
+                "Profile": "${profile}",
+                "Coords": "${coords}",
+                "Isochrone": "${isochrone}",
+                "StationType": "${stationType}",
+                "Minutes": "${minutes}",
+                "NumberStations": "${numberStations}",
+                
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": 
+                    [${coords.lng}, ${coords.lat}]
+            }
+        }]
+    }`
+    return geoJSON;
+ }

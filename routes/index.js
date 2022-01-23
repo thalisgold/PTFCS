@@ -35,5 +35,36 @@ router.get('/', function(req, res, next)
   
   })
 
+ /**
+ * POST to insert sights into the database.
+ * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
+ * Validation on the data happens on the client sight.
+ */
+router.post('/addStation', function(req, res, next) {
+  var stationDataString = req.body.o;
+  var stationData = JSON.parse(stationDataString);
+  console.log(stationData);
+
+  // client.connect(function(err){
+
+  //   assert.equal(null, err);
+
+  //   console.log('Connected successfully to server');
+
+  //   const db = client.db(dbName);
+  //   const collection = db.collection(collectionName);
+
+  //   collection.insertOne(stationData, function(err, result){
+  //     assert.equal(err, null);
+      
+  //     console.log(`Inserted the sight successfully ${result.insertedCount} document into the collection`)
+      
+  //   })
+  //   res.send("It worked");
+  // })
+})
+
 });
+
+
 module.exports = router;
