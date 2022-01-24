@@ -76,6 +76,7 @@ router.post('/addStation', function(req, res) {
 router.post('/delete', function(req, res) {
   let stationsIDs = JSON.parse(req.body.o).stationsIDs
   console.log(stationsIDs)
+  console.log(stationsIDs.length)
 
   client.connect(function(err) {
     const db = client.db(dbName);
@@ -89,8 +90,8 @@ router.post('/delete', function(req, res) {
           //if (err) throw err;
           console.log('One document deleted');
       })
-      res.send("Successfully deleted the selected stations");
-    }  
+    }
+    res.send("Successfully deleted the selected stations");  
   })
 });
 
