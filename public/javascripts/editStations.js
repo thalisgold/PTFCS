@@ -17,9 +17,9 @@ map.on('draw:created', function(event) {
                                 <div>\
                                     <br>Parameter für den Einfluss der Ladestation:</br><br>\
                                     <input type="radio" id="L" name="transportationType" value="L">\
-                                    <label for="L">Zu Fuß</label><br>\
+                                    <label for="L">Laufen</label><br>\
                                     <input type="radio" id="F" name="transportationType" value="F">\
-                                    <label for="F">Auto</label>\
+                                    <label for="F">Fahren</label>\
                                 </div>\
                                 <form id="myForm">\
                                 <div class="slidecontainer">\
@@ -32,15 +32,15 @@ map.on('draw:created', function(event) {
                                 </div>\
                                 <div>\
                                     <br>Ladestationstyp:</br><br>\
-                                    <input type="radio" id="NL" name="stationType" value="NL">\
+                                    <input type="radio" id="NL" name="stationType" value="Normalladestation">\
                                     <label for="NL">Normalladestation</label><br>\
-                                    <input type="radio" id="SL" name="stationType" value="SL">\
+                                    <input type="radio" id="SL" name="stationType" value="Schnellladestation">\
                                     <label for="SL">Schnellladestation</label>\
                                 </div>\
                                 <div class="slidecontainer">\
                                 <br>Anzahl Ladestationen:</br><br>\
-                                    <input type="range" min="1" max="40" value="20" class="slider" id="anzahlLadestation" oninput="this.nextElementSibling.value = this.value">\
-                                    <output>20</output>\
+                                    <input type="range" min="1" max="10" value="5" class="slider" id="anzahlLadestation" oninput="this.nextElementSibling.value = this.value">\
+                                    <output>5</output>\
                                 </div><br>\
                                 <div style="height: 25px;">\
                                     <button id="send" type="button">Send</button>\
@@ -87,9 +87,11 @@ map.on('draw:created', function(event) {
             var transportationType = $("input[name='transportationType']:checked").val();
             if (transportationType == 'F') {
                 var profile = "driving";
+                var profil = "Fahren"
             }
             else if (transportationType == 'L') {
-                profile = "walking";
+                var profile = "walking";
+                var profil = "Laufen"
             }
             console.log("transportationType:"+ profile);
             // marker
@@ -103,7 +105,7 @@ map.on('draw:created', function(event) {
             let isochroneString = JSON.stringify(isochrone)
 
 
-            let objectDataString = createGeoJSONString(profile, coords, isochroneString, stationType, minutes, numberStations);
+            let objectDataString = createGeoJSONString(profil, coords, isochroneString, stationType, minutes, numberStations);
             console.log(objectDataString)
             // let objectData = JSON.parse(objectDataString)
             // console.log(objectData);
@@ -161,12 +163,14 @@ map.on('draw:created', function(event) {
  var stationsArray = [];
  var stationsIDs = []
 
- $('input[type=checkbox]').change(function() {
+ $('input[class=chb]').change(function() {
     if (this.checked) {
-        
         for (let i = 0; i < stations.length; i++) {
             if(stations[i]._id === this.id) {
-                let s = L.geoJSON(stations[i], {stationId: this.id})
+                var exteriorStyle = {
+                    "fillOpacity": 0
+                };
+                let s = L.geoJSON(stations[i], {style: exteriorStyle}, {stationId: this.id})
                 stationsArray.push(s)
                 s.addTo(map)
                 stationsIDs.push(this.id)
@@ -183,6 +187,33 @@ map.on('draw:created', function(event) {
     }
     console.log(stationsArray)
 });
+let scenarios = new L.FeatureGroup();
+
+$('input[class=chbd]').change(async function() {
+    $('input[class=chbd]').not(this).prop('checked', false);
+    scenarios.eachLayer(function (layer) {
+        scenarios.removeLayer(layer);
+    });
+    if (this.checked) {
+        if (this.id == "2022"){
+            let url = "http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif"
+            let layer_2022 = await createLayerFromURL(url)
+            scenarios.addLayer(layer_2022)
+        }
+        else if (this.id == "2025"){
+            let url = "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632_newValues.tif"
+            let layer_2025 = await createLayerFromURL(url)
+            scenarios.addLayer(layer_2025)
+        }
+        else if (this.id == "2030"){
+            let url = "http://localhost:3000/ladebedarf/3_ladebedarf_rasterized_2030_EPSG_32632_newValues.tif"
+            let layer_2030 = await createLayerFromURL(url)
+            scenarios.addLayer(layer_2030)
+        }
+    }
+    map.addLayer(scenarios);
+});
+
 
 
 // variables that store the delete-Button HTML-object

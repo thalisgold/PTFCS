@@ -25,5 +25,26 @@ block content
     
     button(class="btn btn-danger" id='deleteButton') Löschen
 
+
+    #scenariosTable
+            table.table.table-striped
+                tr
+                    th 
+                    th Szenario
+                
+                
+                    tr
+                        td
+                                input(type='checkbox' class='chbd' id="2022")
+                        td  Ladebedarf 2022
+                    tr
+                        td
+                                input(type='checkbox' class='chbd' id="2025")
+                        td  Ladebedarf 2025
+                    tr 
+                        td
+                                input(type='checkbox' class='chbd' id="2030")
+                        td  Ladebedarf 2030
+
   script.
         var stations = !{JSON.stringify(stationData)}
