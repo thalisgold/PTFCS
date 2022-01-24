@@ -5,21 +5,23 @@ block content
 
   #infos
 
-    //- #scenarioTable
-    //- table.table.table-hover
-    //-   thead
-    //-     tr
-    //-       th Ladebedarfssznenario für das Jahr: 
-    //-   tbody
-    //-     tr
-    //-       td
-    //-         input#radio1(type='radio' name='radios' checked)
-    //-         label(for='radio1')  2022
-    //-     tr
-    //-       td
-    //-         input#radio2(type='radio' name='radios')
-    //-         label(for='radio2')  2025
-    //-     tr
-    //-       td
-    //-         input#radio3(type='radio' name='radios')
-    //-         label(for='radio3')  2030
+    #stationsTable
+            table.table.table-striped
+                tr
+                    th
+                    th Profil
+                    th Zeit (in Minuten)
+                    th Stationstyp 
+                    th Anzahl der Stationen
+                
+                each n, index in stationData
+                    tr
+                        td
+                            input(type='checkbox' class='chb' id=n._id)
+                        td= n.properties.Profile
+                        td= n.properties.Minutes 
+                        td= n.properties.StationType 
+                        td= n.properties.NumberStations
+
+  script.
+        var stations = !{JSON.stringify(stationData)}

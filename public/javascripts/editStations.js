@@ -1,5 +1,6 @@
 "use strict"
-// const APIIURL = "http://localhost:3000"
+
+//const APIIURL = "http://localhost:3000"
 /**
  * Event-listener that listens to a leaflet draw event. The function gets called
  * every time the event (new marker or polygon drawn) happens.
@@ -97,44 +98,33 @@ map.on('draw:created', function(event) {
             // isochrone as GeoJSON
             var data = await getIso(profile, coords, minutes);
             console.log(data)
-            var isochrone = await data.features[0];
+            var isochrone = await data.features[0].geometry.coordinates[0];
             console.log(isochrone);
-            var isochroneGeoJSON = L.geoJSON(isochrone)
-            //var isochroneGeom = data.features[0].geometry.coordinates[0];
-            // console.log(isochroneGeom);
+            let isochroneString = JSON.stringify(isochrone)
 
 
-            let objectDataString = createGeoJSONString(profile, coords, isochrone, stationType, minutes, numberStations);
-            console.log(objectDataString);
-            let jsonData = {};
-            jsonData.o = objectDataString;
-            
-            // send POST to start calculations
-            this.http.post(APIURL + '/addStation', jsonData).subscribe({
-                next: async (data) => {
-                    console.log(data);
-                },
-                error: (error) => {
-                    console.error('There was an error!', error);
-                },
-            });
+            let objectDataString = createGeoJSONString(profile, coords, isochroneString, stationType, minutes, numberStations);
+            console.log(objectDataString)
+            // let objectData = JSON.parse(objectDataString)
+            // console.log(objectData);
   
   
             // Ajax request to send sight data to server to upload it to the database
-            //  $.ajax({
-            //     type: "POST",
-            //     url: "/addStation",
-            //     data: {
-            //         o: objectDataString
-            //     },
-            //     success: function (data) {
-            //         // window.location.href = "/";
-            //     },
-            //     error: function () {
-            //         alert('error')
-            //     }
-            // })
-            // .done()
+            $.ajax({
+                type: "POST",
+                url: "/addStation",
+                dataType: "text",
+                data: {
+                    o: objectDataString
+                },
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+                    alert('error')
+                }
+            })
+            .done()
             
         }
     }) 
@@ -187,26 +177,24 @@ async function getIso(profile, coords, minutes) {
  */
  function createGeoJSONString(profile, coords, isochrone, stationType, minutes, numberStations) {
     // LayerType validation
-    let geoJSON =`{
-        "type": "FeatureCollection",
-        "features": [
-        {
-            "type": "Feature", 
+    let geoJSON = `{
+            "type": "Feature",
             "properties": {
                 "Profile": "${profile}",
-                "Coords": "${coords}",
-                "Isochrone": "${isochrone}",
                 "StationType": "${stationType}",
                 "Minutes": "${minutes}",
-                "NumberStations": "${numberStations}",
-                
+                "NumberStations": "${numberStations}"
             },
             "geometry": {
-                "type": "Point",
-                "coordinates": 
-                    [${coords.lng}, ${coords.lat}]
+                "type": "GeometryCollection",
+                "geometries": [{
+                    "type": "Point",
+                    "coordinates": [${coords.lng}, ${coords.lat}]
+                }, {
+                    "type": "Polygon",
+                    "coordinates": [${isochrone}]
+                }]  
             }
-        }]
-    }`
+        }`
     return geoJSON;
  }

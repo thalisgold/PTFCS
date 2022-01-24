@@ -6,12 +6,11 @@ const assert = require('assert')
 const url = 'mongodb://localhost:27017' // connection URL
 const client = new MongoClient(url) // mongodb client
 const dbName = 'PTFCS-database' // database name
-const collectionName = 'test' // collection name
+const collectionName = 'stations' // collection name
 
 
 /* GET search page. */
-router.get('/', function(req, res, next) 
-{
+router.get('/', function(req, res, next) {
   
   // connect to the mongodb database and retrieve all docs
   client.connect(function(err) 
@@ -24,47 +23,48 @@ router.get('/', function(req, res, next)
     const collection = db.collection(collectionName)
 
     // Find some documents
-    collection.find({}).toArray(function(err, docs) 
+    collection.find({}).toArray(function(err, data) 
     {
       assert.equal(err, null);
       console.log('Found the following records...');
-      console.log(docs[0].features)
-      res.render('index', { title: 'Search Page', data: docs[0].features });
+      //console.log(docs[0].features)
+      res.render('index', {stationData: data});
 
     })
   
   })
+});
 
  /**
  * POST to insert sights into the database.
  * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
  * Validation on the data happens on the client sight.
  */
-router.post('/addStation', function(req, res, next) {
-  var stationDataString = req.body.o;
-  var stationData = JSON.parse(stationDataString);
-  console.log(stationData);
+router.post('/addStation', function(req, res) {
 
-  // client.connect(function(err){
+  console.log(req.body)
+  let stationDataString = req.body.o;
+  let stationData = JSON.parse(stationDataString)
+  console.log(stationData)
+  
+  client.connect(function(err){
 
-  //   assert.equal(null, err);
+    assert.equal(null, err);
 
-  //   console.log('Connected successfully to server');
+    console.log('Connected successfully to server');
 
-  //   const db = client.db(dbName);
-  //   const collection = db.collection(collectionName);
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
 
-  //   collection.insertOne(stationData, function(err, result){
-  //     assert.equal(err, null);
+    collection.insertOne(stationData, function(err, result){
+      assert.equal(err, null);
+      console.log(result)
+      console.log(`Inserted the station successfully into the collection`)
       
-  //     console.log(`Inserted the sight successfully ${result.insertedCount} document into the collection`)
-      
-  //   })
-  //   res.send("It worked");
-  // })
+    })
+    res.send("Station added to the database")
+  })
 })
-
-});
 
 
 module.exports = router;
