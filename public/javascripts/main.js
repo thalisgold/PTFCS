@@ -13,6 +13,8 @@ var drawnItems = new L.FeatureGroup();
 // featureGroup to store drawn markers and polygons
 let markers = new L.FeatureGroup();
 
+// featureGroup to store 
+
 // new draw control for the given map, in which only the reactangle tool is provided
 var drawControl = new L.Control.Draw({
     draw: {
@@ -37,7 +39,7 @@ map.addLayer(drawnItems);
 
 // array where the layers should be stored
 // var ladebedarfsSzenarienLayer =[];
-addStationsFromDB(stations)
+//addStationsFromDB(stations)
 // create the layers for all three scenarios
 // createLayersFromURL(url_array);
 

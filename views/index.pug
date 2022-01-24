@@ -22,6 +22,8 @@ block content
                         td= n.properties.Minutes 
                         td= n.properties.StationType 
                         td= n.properties.NumberStations
+    
+    button(class="btn btn-danger" id='deleteButton') Löschen
 
   script.
         var stations = !{JSON.stringify(stationData)}

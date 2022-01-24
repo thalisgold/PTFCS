@@ -40,69 +40,6 @@ function addOSMTileLayer(mapObj) {
     return new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'}).addTo(mapObj);
 }
 
-// array that is filled with all the associated stations to the stations in the database 
-var stationsArray = [];
-let layerGroup = new L.layerGroup()
-layerGroup.addTo(map)
-
-/**
- * This funtion loads all stations from the database to display them in the map.
- * 
- * @param {Array} stations - array of stations as geojson
- */
- function addStationsFromDB(stations) {
-    // deleteCurrentMarkers();
-    
-    console.log(stations)
-    for (let i = 0; i <stations.length; i++) {
-        let s = L.geoJSON(stations[i])
-        let s_id = L.stamp(s)
-        console.log(s_id)
-        console.log(s)
-        s.addTo(layerGroup)
-        //map.removeLayer(s_id)
-        
-    //     if (stations[i].geometry.type == "Point") {
-    //        var s = L.geoJSON(stations[i], {
-    //            // swaps geojson coordinates from [lng, lat] to [lat, lng] 
-    //            coordsToLatLng: function (coords) {
-    //                return new L.LatLng(coords[1], coords[0]);
-    //            }
-    //        });
-    //        var id = stations[i]._id;
-    //        var marker = L.marker([s._layers[s._leaflet_id-1]._latlng.lat, s._layers[s._leaflet_id-1]._latlng.lng], {sightsId: id});
-    //        stationsArray.push(marker);
-    //        // binds popup with all necessary informations to marker
-    //        marker.bindPopup(  `<h5>Infos</h5>
-    //                    <p><strong>Name: </strong> ${stations[i].features[0].properties.Name}</p>
-    //                    <p><strong>Beschreibung: </strong> ${stations[i].features[0].properties.Beschreibung}</p>
-    //                    <p><strong>URL: </strong> <a href="${stations[i].features[0].properties.URL}">${stations[i].features[0].properties.URL}</a></p> `)
-    //        markers.addLayer(marker);
-    //     }
-    //     if (stations[i].features[0].geometry.type == "Polygon") {
-    //        var s = L.geoJSON(stations[i], {
-    //            //swaps geojson coordinates from [lng, lat] to [lat, lng] 
-    //            coordsToLatLng: function (coords) {
-    //                return new L.LatLng(coords[1], coords[0]);
-    //            }
-    //        });
-    //        // builds array
-    //        console.log(s._layers[s._leaflet_id-1]._latlngs[0]);
-    //        var coordinatesFinished = extractCoordinatesLatLngPolygon(s._layers[s._leaflet_id-1]._latlngs[0]);
-    //        var id = stations[i]._id
-    //        var polygon = L.polygon(coordinatesFinished, {sightsId: id});
-    //        stationsArray.push(polygon);
-    //        polygon.bindPopup(  `<h5>Infos</h5>
-    //                   <p><strong>Name: </strong> ${stations[i].features[0].properties.Name}</p>
-    //                   <p><strong>Beschreibung: </strong> ${stations[i].features[0].properties.Beschreibung}</p>
-    //                   <p><strong>URL: </strong> <a href="${stations[i].features[0].properties.URL}">${stations[i].features[0].properties.URL}</a></p> `)
-    //        markers.addLayer(polygon);
-    //    }
-    }
-    //console.log(stationsArray)
-    //map.addLayer(markers);
-}
-
 
 /**
  * Function, that fetches all urls of the tifs to generate the three default scenarios as layers

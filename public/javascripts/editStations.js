@@ -119,6 +119,7 @@ map.on('draw:created', function(event) {
                 },
                 success: function (data) {
                     console.log(data);
+                    window.location.href = "/"
                 },
                 error: function () {
                     alert('error')
@@ -156,6 +157,69 @@ map.on('draw:created', function(event) {
     })
 
  })
+
+ var stationsArray = [];
+ var stationsIDs = []
+
+ $('input[type=checkbox]').change(function() {
+    if (this.checked) {
+        
+        for (let i = 0; i < stations.length; i++) {
+            if(stations[i]._id === this.id) {
+                let s = L.geoJSON(stations[i], {stationId: this.id})
+                stationsArray.push(s)
+                s.addTo(map)
+                stationsIDs.push(this.id)
+            }   
+        }
+    } else {
+        for (let i = 0; i < stationsArray.length; i++) {
+            if (stationsArray[i].options.stationId == this.id) {
+                map.removeLayer(stationsArray[i])
+                stationsArray.splice(i,1)
+                stationsIDs.splice(i,1)
+            } 
+        } 
+    }
+    console.log(stationsArray)
+});
+
+
+// variables that store the delete-Button HTML-object
+var deleteButton = document.getElementById('deleteButton');
+
+/**
+ * Event-listener that listens for a click event on the deleteButton. 
+ * If the button is clicked the callback function is executed which sends 
+ * an ajax-POST-request to the express server. 
+ * The data sent to the server contains the id's of the routes which should be deleted from the database.
+ * After the ajax-request is done the page gets refreshed.
+ */
+deleteButton.addEventListener('click', function(){
+    if (stationsIDs.length != 0){
+        // Ajax request that sends information about the sights that should be deleted from the database to the server.
+        var obj = {}
+        obj.stationsIDs = stationsIDs
+        var objectDataString = JSON.stringify(obj)
+        $.ajax({
+            type: "POST",
+            url: "/delete",
+            dataType: "text",
+            data: {
+                o: objectDataString
+            },
+            success: function (data) {
+                console.log(data)
+                window.location.href = "/"
+            },
+            error: function () {
+                alert('error')
+            }
+        })
+        .done()
+    }
+})
+
 
 async function getIso(profile, coords, minutes) {
     const query = await fetch(
