@@ -170,7 +170,7 @@ map.on('draw:created', function(event) {
                 var exteriorStyle = {
                     "fillOpacity": 0
                 };
-                let s = L.geoJSON(stations[i], {style: exteriorStyle}, {stationId: this.id})
+                let s = L.geoJSON(stations[i], {style: exteriorStyle, stationId: this.id})
                 stationsArray.push(s)
                 s.addTo(map)
                 stationsIDs.push(this.id)
