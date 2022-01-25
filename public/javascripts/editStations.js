@@ -182,13 +182,12 @@ map.on('draw:created', function(event) {
   */
  function getCheckedScenario() {
     var obj = {};
-    obj.scenarioChecked=[];
     
     $('input[class=chbd]').each(function(){
         var $this = $(this);
 
         if($this.is(":checked")){
-            obj.scenarioChecked.push($this.attr("id"));
+            obj.scenarioChecked = $this.attr("id");
         }
     });
     return obj;

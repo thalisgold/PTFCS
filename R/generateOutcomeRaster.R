@@ -1,7 +1,16 @@
 
 test <- function(data) {
-  library(jsonlite)
-  a <- fromJSON(data)
+  library(mongolite)
+
+  # This is the connection_string. You can get the exact url from your MongoDB cluster screen
+  connection_string = 'mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false'
+  
+  stations_collection = mongo(collection="stations", db="PTFCS-database", url=connection_string)
+  data
+  
+  stations_collection$count()
+
+  alldata <- stations_collection$find('{}')
 
   # jsonObj <- fromJSON
 }

@@ -85,46 +85,57 @@ router.post('/addStation', function(req, res) {
  */
  router.post('/calculateRaster', function(req, res) {
 
-  // console.log(req.body)
+  let scenario = req.body.scenarioChecked
+
+  R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: scenario})
+                .then((result) => {
+                    console.log(result);
+                    res.send("Raster calculated")
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+
   // let stationDataString = req.body;
   // let stationData = JSON.parse(stationDataString)
   // console.log(stationData)
-  var jsonArray = {}
-  client.connect(async function(err){
+  // var jsonArray = {}
+  // client.connect(async function(err){
 
-    assert.equal(null, err);
+  //   assert.equal(null, err);
 
-    console.log('Get data from database for R calculation');
+  //   console.log('Get data from database for R calculation');
 
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+  //   const db = client.db(dbName);
+  //   const collection = db.collection(collectionName);
 
-    let promiseDB = new Promise((resolve, reject) => {
-      collection.find({}).toArray(function(err, data) 
-      {
-        assert.equal(err, null);
-        // console.log('Database objects:');
-        // console.log(data)
-        jsonArray.data = data;
-        console.log(jsonArray)
-        resolve('ok')
-      })
-    })
+  //   let promiseDB = new Promise((resolve, reject) => {
+  //     collection.find({}).toArray(function(err, data) 
+  //     {
+  //       assert.equal(err, null);
+  //       // console.log('Database objects:');
+  //       // console.log(data)
+  //       jsonArray.data = data;
+  //       console.log(jsonArray)
+  //       resolve('ok')
+  //     })
+  //   })
 
-    promiseDB
-    .then(() => {
-      let jsonArrayString = JSON.stringify(jsonArray)
-      console.log(jsonArrayString)
+  //   promiseDB
+  //   .then(() => {
+  //     let jsonArrayString = JSON.stringify(jsonArray)
+  //     res.send(jsonArrayString)
+  //     //console.log(jsonArrayString)
 
-    // R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
-    //             .then((result) => {
-    //                 console.log(result);
-    //                 res.send("Raster calculated")
-    //             })
-    //             .catch((error) => {
-    //                 console.error(error);
-    //             })
-    })
+  //     R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
+  //               .then((result) => {
+  //                   console.log(result);
+  //                   res.send("Raster calculated")
+  //               })
+  //               .catch((error) => {
+  //                   console.error(error);
+  //               })
+  //   })
 
     // let jsonArrayString = JSON.stringify(jsonArray)
     // // console.log(jsonArrayString)
@@ -137,7 +148,7 @@ router.post('/addStation', function(req, res) {
     //                 console.error(error);
     //             })
     
-  })
+  // })
   
 })
 
