@@ -32,6 +32,8 @@ map.addControl(drawControl);
 // adds the layer with drawn items to the map
 map.addLayer(drawnItems);
 
+console.log(stations)
+
 // urls from the tifs from the three default scenarios
 // var url_array = ["http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif",
 //                  "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632_newValues.tif", 

@@ -121,16 +121,29 @@ map.on('draw:created', function(event) {
                 },
                 success: function (data) {
                     console.log(data);
-                    window.location.href = "/"
+                    let checkedScenario = getCheckedScenario();
+                    console.log(checkedScenario)
+                    $.ajax({
+                        type: "POST",
+                        url: "/calculateRaster",
+                        dataType: "text",
+                        data: checkedScenario,
+                        success: function (data) {
+                            console.log(data);
+                            window.location.href = "/"
+                        },
+                        error: function () {
+                            alert('error')
+                        }
+                    })
                 },
                 error: function () {
                     alert('error')
                 }
             })
-            .done()
-            
         }
     }) 
+
 
     let showIsoButton = document.getElementById("showIso");
 
@@ -159,6 +172,46 @@ map.on('draw:created', function(event) {
     })
 
  })
+
+/**
+  * The function iterates through all HTML-objects from type input:checkbox
+  * and puts all ids of the checked boxes into one array which is stored as an js object. Only one box can be checked at the same time, so 
+  * the length of the array is <=1.
+  * 
+  * @returns {object} the object that contains an array with the ids of all the checked boxes in the HTML-document
+  */
+ function getCheckedScenario() {
+    var obj = {};
+    obj.scenarioChecked=[];
+    
+    $('input[class=chbd]').each(function(){
+        var $this = $(this);
+
+        if($this.is(":checked")){
+            obj.scenarioChecked.push($this.attr("id"));
+        }
+    });
+    return obj;
+ }
+
+
+// variables that store the delete-Button HTML-object
+var calculationButton = document.getElementById('calculationButton');
+
+calculationButton.addEventListener('click', function() {
+    $.ajax({
+        type: "GET",
+        url: "/calculateRaster",
+        dataType: "text",
+        success: function (data) {
+            console.log(data);
+            window.location.href = "/"
+        },
+        error: function () {
+            alert('error')
+        }
+    })
+})
 
  var stationsArray = [];
  var stationsIDs = []

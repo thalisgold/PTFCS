@@ -1,13 +1,20 @@
+// express
 var express = require('express');
 var router = express.Router();
+
+// assert
 const assert = require('assert')
 
+// mongoDB
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
 const url = 'mongodb://localhost:27017' // connection URL
 const client = new MongoClient(url) // mongodb client
 const dbName = 'PTFCS-database' // database name
 const collectionName = 'stations' // collection name
+
+// r-integration
+const R = require('r-integration');
 
 
 /* GET search page. */
@@ -63,9 +70,46 @@ router.post('/addStation', function(req, res) {
       console.log(`Inserted the station successfully into the collection`)
       
     })
+
     res.send("Station added to the database")
+    // res.render('index', {stationData: data});
   })
 })
+
+
+
+/**
+ * POST to insert sights into the database.
+ * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
+ * Validation on the data happens on the client sight.
+ */
+ router.post('/calculateRaster', function(req, res) {
+
+  console.log(req.body)
+  // let stationDataString = req.body;
+  // let stationData = JSON.parse(stationDataString)
+  // console.log(stationData)
+  
+  client.connect(function(err){
+
+    assert.equal(null, err);
+
+    console.log('Connected successfully to server');
+
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    collection.find({}).toArray(function(err, data) 
+    {
+      assert.equal(err, null);
+      console.log('Database objects:');
+      console.log(data)
+    })
+    
+  })
+  res.send("Raster calculated")
+})
+
 
 
 /**
