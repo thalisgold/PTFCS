@@ -50,10 +50,10 @@ router.get('/', function(req, res, next) {
  */
 router.post('/addStation', function(req, res) {
 
-  console.log(req.body)
+  // console.log(req.body)
   let stationDataString = req.body.o;
   let stationData = JSON.parse(stationDataString)
-  console.log(stationData)
+  // console.log(stationData)
   
   client.connect(function(err){
 
@@ -66,7 +66,7 @@ router.post('/addStation', function(req, res) {
 
     collection.insertOne(stationData, function(err, result){
       assert.equal(err, null);
-      console.log(result)
+      // console.log(result)
       console.log(`Inserted the station successfully into the collection`)
       
     })
@@ -83,28 +83,41 @@ router.post('/addStation', function(req, res) {
  * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
  * Validation on the data happens on the client sight.
  */
- router.post('/calculateRaster', function(req, res) {
+ router.post('/calculateRaster', async function(req, res) {
 
-  console.log(req.body)
+  // console.log(req.body)
   // let stationDataString = req.body;
   // let stationData = JSON.parse(stationDataString)
   // console.log(stationData)
   
-  client.connect(function(err){
+  client.connect(async function(err){
 
     assert.equal(null, err);
 
-    console.log('Connected successfully to server');
+    console.log('Get data from database for R calculation');
 
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    collection.find({}).toArray(function(err, data) 
+    var jsonArray = {}
+    collection.find({}).toArray(async function(err, data) 
     {
       assert.equal(err, null);
-      console.log('Database objects:');
-      console.log(data)
+      // console.log('Database objects:');
+      // console.log(data)
+      jsonArray.data = data;
+      console.log(jsonArray)
     })
+    let jsonArrayString = JSON.stringify(jsonArray)
+    // console.log(jsonArrayString)
+
+    R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
+                .then((result) => {
+                    console.log(result);
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
     
   })
   res.send("Raster calculated")
