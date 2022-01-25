@@ -83,13 +83,13 @@ router.post('/addStation', function(req, res) {
  * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
  * Validation on the data happens on the client sight.
  */
- router.post('/calculateRaster', async function(req, res) {
+ router.post('/calculateRaster', function(req, res) {
 
   // console.log(req.body)
   // let stationDataString = req.body;
   // let stationData = JSON.parse(stationDataString)
   // console.log(stationData)
-  
+  var jsonArray = {}
   client.connect(async function(err){
 
     assert.equal(null, err);
@@ -99,28 +99,46 @@ router.post('/addStation', function(req, res) {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    var jsonArray = {}
-    collection.find({}).toArray(async function(err, data) 
-    {
-      assert.equal(err, null);
-      // console.log('Database objects:');
-      // console.log(data)
-      jsonArray.data = data;
-      console.log(jsonArray)
+    let promiseDB = new Promise((resolve, reject) => {
+      collection.find({}).toArray(function(err, data) 
+      {
+        assert.equal(err, null);
+        // console.log('Database objects:');
+        // console.log(data)
+        jsonArray.data = data;
+        console.log(jsonArray)
+        resolve('ok')
+      })
     })
-    let jsonArrayString = JSON.stringify(jsonArray)
-    // console.log(jsonArrayString)
 
-    R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
-                .then((result) => {
-                    console.log(result);
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
+    promiseDB
+    .then(() => {
+      let jsonArrayString = JSON.stringify(jsonArray)
+      console.log(jsonArrayString)
+
+    // R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
+    //             .then((result) => {
+    //                 console.log(result);
+    //                 res.send("Raster calculated")
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             })
+    })
+
+    // let jsonArrayString = JSON.stringify(jsonArray)
+    // // console.log(jsonArrayString)
+
+    // R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
+    //             .then((result) => {
+    //                 console.log(result);
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             })
     
   })
-  res.send("Raster calculated")
+  
 })
 
 

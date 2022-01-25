@@ -1,7 +1,7 @@
 
 test <- function(data) {
-  # library(jsonlite)
-  print(data)
+  library(jsonlite)
+  a <- fromJSON(data)
 
   # jsonObj <- fromJSON
 }
