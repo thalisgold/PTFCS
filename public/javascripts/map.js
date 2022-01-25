@@ -72,6 +72,7 @@ function addOSMTileLayer(mapObj) {
     }
     catch (error) {
         console.log(error)
+        return null;
     }
 }
 

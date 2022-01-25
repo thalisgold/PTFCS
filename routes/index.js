@@ -2,6 +2,9 @@
 var express = require('express');
 var router = express.Router();
 
+// fs
+var fs = require('fs');
+
 // assert
 const assert = require('assert')
 
@@ -50,6 +53,10 @@ router.get('/', function(req, res, next) {
  */
 router.post('/addStation', function(req, res) {
 
+  fs.unlink('../public/outcome/outcomeRaster.tif', () => {
+    console.log("outcoeRaster.tif deleted successfully")
+  })
+
   // console.log(req.body)
   let stationDataString = req.body.o;
   let stationData = JSON.parse(stationDataString)
@@ -64,15 +71,19 @@ router.post('/addStation', function(req, res) {
     const db = client.db(dbName);
     const collection = db.collection(collectionName);
 
-    collection.insertOne(stationData, function(err, result){
-      assert.equal(err, null);
-      // console.log(result)
-      console.log(`Inserted the station successfully into the collection`)
-      
+    let promiseDB = new Promise((resolve, reject) => {
+      collection.insertOne(stationData, function(err, result){
+        assert.equal(err, null);
+        // console.log(result)
+        console.log(`Inserted the station successfully into the collection`)
+        resolve('ok');
+      })
     })
 
-    res.send("Station added to the database")
-    // res.render('index', {stationData: data});
+    promiseDB.then(() => {
+      res.send("Station added to the database")
+    })
+
   })
 })
 
@@ -94,62 +105,7 @@ router.post('/addStation', function(req, res) {
                 })
                 .catch((error) => {
                     console.error(error);
-                })
-
-  // let stationDataString = req.body;
-  // let stationData = JSON.parse(stationDataString)
-  // console.log(stationData)
-  // var jsonArray = {}
-  // client.connect(async function(err){
-
-  //   assert.equal(null, err);
-
-  //   console.log('Get data from database for R calculation');
-
-  //   const db = client.db(dbName);
-  //   const collection = db.collection(collectionName);
-
-  //   let promiseDB = new Promise((resolve, reject) => {
-  //     collection.find({}).toArray(function(err, data) 
-  //     {
-  //       assert.equal(err, null);
-  //       // console.log('Database objects:');
-  //       // console.log(data)
-  //       jsonArray.data = data;
-  //       console.log(jsonArray)
-  //       resolve('ok')
-  //     })
-  //   })
-
-  //   promiseDB
-  //   .then(() => {
-  //     let jsonArrayString = JSON.stringify(jsonArray)
-  //     res.send(jsonArrayString)
-  //     //console.log(jsonArrayString)
-
-  //     R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
-  //               .then((result) => {
-  //                   console.log(result);
-  //                   res.send("Raster calculated")
-  //               })
-  //               .catch((error) => {
-  //                   console.error(error);
-  //               })
-  //   })
-
-    // let jsonArrayString = JSON.stringify(jsonArray)
-    // // console.log(jsonArrayString)
-
-    // R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: jsonArrayString})
-    //             .then((result) => {
-    //                 console.log(result);
-    //             })
-    //             .catch((error) => {
-    //                 console.error(error);
-    //             })
-    
-  // })
-  
+                })  
 })
 
 

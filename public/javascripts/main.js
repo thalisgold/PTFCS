@@ -34,6 +34,21 @@ map.addLayer(drawnItems);
 
 console.log(stations)
 
+let outcomeURL = "http://localhost:3000/outcome/outcomeRaster.tif"
+
+async function showOutcomeRaster(url) {
+    var layer = await createLayerFromURL(url)
+    if (layer != null) {
+        map.addLayer(layer);
+    }
+}
+
+showOutcomeRaster(outcomeURL)
+
+// var layer = createLayerFromURL("http://localhost:3000/outcome/outcomeRaster.tif")
+// if (layer != null) {
+//     map.addLayer(layer);
+// }
 // urls from the tifs from the three default scenarios
 // var url_array = ["http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif",
 //                  "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632_newValues.tif", 

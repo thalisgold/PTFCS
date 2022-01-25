@@ -1,5 +1,3 @@
-data = "2022"
-
 test <- function(data) {
   library(mongolite)
   library(sf)
@@ -7,7 +5,6 @@ test <- function(data) {
   library(mapview)
   library(sp)
   
-  setwd("~/GitHub/PTFCS")
   
   # select the right tif to work with 
   if (data == "2022") {
@@ -27,7 +24,6 @@ test <- function(data) {
   # }
   
   # This is the connection_string. You can get the exact url from your MongoDB cluster screen
-  # connection_string = 'mongodb://localhost:27017/?readPreference=primary&ap=MongoDB%20Compass&directConnection=true&ssl=false'
   connection_string = 'mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false'
   stations_collection = mongo(collection="stations", db="PTFCS-database", url=connection_string)
 
@@ -36,8 +32,6 @@ test <- function(data) {
   # default variables
   hours_per_station <- 70
   hpc_factor <- 4
-  
-  i=1
   
   for (i in 1:length(alldata)) {
     # variables selected by user
