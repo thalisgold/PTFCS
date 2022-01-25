@@ -60,18 +60,16 @@ test <- function(data) {
     # vector_y
     
     xym <- cbind(vector_y, vector_x)
-    xym
+    #xym
     p = Polygon(xym)
     ps = Polygons(list(p),1)
     isochrone = SpatialPolygons(list(ps))
     proj4string(isochrone) = CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
-    # plot(sps)
-    library(mapview)
-    mapview(isochrone)
-
-    # load the isochrone and reproject it to EPSG 32632
-    # isochrone <- read_sf(isochronePath)
     isochrone <- spTransform(isochrone, crs("EPSG:32632"))
+    # library(mapview)
+    # mapview(isochrone)
+
+  
 
 
     # Calcute by how much we have to reduce the need depending on the type of the station
@@ -81,7 +79,7 @@ test <- function(data) {
 
     # crop a new raster to the extent of the isochrone
     rasterCropped <- mask(raster, isochrone)
-    mapview(rasterCropped)
+    # mapview(rasterCropped)
     
     # Herausfinden, wie viele Pixel nicht NA sind, denn nur auf diese Pixel wollen wir die Minuten verteilen
     isNotNA <- !is.na(getValues(rasterCropped))
@@ -102,6 +100,7 @@ test <- function(data) {
     # rasterCropped <- rasterCropped - 10
     # rasterCropped
     rasterCropped <- rasterCropped - subtrahend_minutes_per_pixel
+    # mapview(rasterCropped)
     # writeRaster(rasterCropped, "/public/outcome/", overwrite = TRUE)
 
     # Werte, die durch den Abzug auf unter 0 gefallen sind, m?ssen auf 0 gesetzt werden.
@@ -109,6 +108,7 @@ test <- function(data) {
     # rasterCropped
     # merge the cropped raster with the changed value with the default raster
     raster <- cover(rasterCropped, raster)
+    # mapview(raster)
   }
   # save the raster
   writeRaster(raster, "./public/outcome/outcomeRaster.tif", overwrite = TRUE)

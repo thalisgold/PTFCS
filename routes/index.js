@@ -86,7 +86,7 @@ router.post('/addStation', function(req, res) {
  router.post('/calculateRaster', function(req, res) {
 
   let scenario = req.body.scenarioChecked
-
+  
   R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: scenario})
                 .then((result) => {
                     console.log(result);
