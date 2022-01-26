@@ -75,19 +75,3 @@ function addOSMTileLayer(mapObj) {
         return null;
     }
 }
-
-    // if(document.getElementById('radio1').checked) {
-    //     map.addLayer(ladebedarfsSzenarienLayer[0]);
-    //   }
-    // else if(document.getElementById('radio2').checked) {
-    //     map.addLayer(ladebedarfsSzenarienLayer[1]);
-    //   }
-    // else if(document.getElementById('radio3').checked) {
-    //     map.addLayer(ladebedarfsSzenarienLayer[2]);
-    //   }
-    // map.addLayer(ladebedarfsSzenarienLayer[0]);
-    // var ladebedarfs_szenarien =   { "Ladebedarf 2022": ladebedarfsSzenarienLayer[0],
-    //                                 "Ladebedarf 2025": ladebedarfsSzenarienLayer[1],
-    //                                 "Ladebedarf 2030": ladebedarfsSzenarienLayer[2]}
-    // L.control.layers(ladebedarfs_szenarien).addTo(map);
-    //console.log(ladebedarfs_szenarien)

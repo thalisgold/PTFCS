@@ -20,7 +20,6 @@ var logger = require('morgan');
 
 // define router
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 // define app
 var app = express();
@@ -38,8 +37,6 @@ app.use(express.static(path.join(__dirname, 'node_modules')));
 
 // set routes
 app.use('/', indexRouter);
-// app.use('/home', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

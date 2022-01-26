@@ -31,38 +31,3 @@ map.addControl(drawControl);
 
 // adds the layer with drawn items to the map
 map.addLayer(drawnItems);
-
-console.log(stations)
-
-// let outcomeURL = "http://localhost:3000/outcome/outcomeRaster.tif"
-
-// async function showOutcomeRaster(url) {
-//     try {
-//         var layer = await createLayerFromURL(url)
-//         if (layer != null) {
-//             scenarios.addLayer(layer)
-//             map.addLayer(scenarios);
-//         }
-//     } catch (error) {
-//         console.log("No outcomeRaster.tif available")
-//     }
-// }
-
-// showOutcomeRaster(outcomeURL)
-
-// var layer = createLayerFromURL("http://localhost:3000/outcome/outcomeRaster.tif")
-// if (layer != null) {
-//     map.addLayer(layer);
-// }
-// urls from the tifs from the three default scenarios
-// var url_array = ["http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif",
-//                  "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632_newValues.tif", 
-//                  "http://localhost:3000/ladebedarf/3_ladebedarf_rasterized_2030_EPSG_32632_newValues.tif"]
-
-// array where the layers should be stored
-// var ladebedarfsSzenarienLayer =[];
-//addStationsFromDB(stations)
-// create the layers for all three scenarios
-// createLayersFromURL(url_array);
-
-// console.log(ladebedarfsSzenarienLayer);

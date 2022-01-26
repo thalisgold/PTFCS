@@ -117,8 +117,6 @@ map.on('draw:created', function(event) {
 
             let objectDataString = createGeoJSONString(profil, coords, isochroneString, stationType, minutes, numberStations);
             console.log(objectDataString)
-            // let objectData = JSON.parse(objectDataString)
-            // console.log(objectData);
   
   
             // Ajax request to send sight data to server to upload it to the database
@@ -131,7 +129,6 @@ map.on('draw:created', function(event) {
                 },
                 success: function (data) {
                     console.log(data);
-                    // $( "#stationsTable" ).load(window.location.href + " #stationsTable" );
                     $.ajax({
                         type: "GET",
                         url: "/calculateRaster",
@@ -151,25 +148,6 @@ map.on('draw:created', function(event) {
             })
         }
     }) 
-
-
-    
-
-    // $(document).ajaxStart(function(){
-    //     $('#loading').show();
-    //  }).ajaxStop(function(){
-    //     $('#loading').hide();
-    //  });
-
-    // $( document ).ajaxStart(function() {
-    //     $( "#loading-" ).show();
-    // });
-
-    // $( document ).ajaxStop(function() {
-    //     $( "#loading" ).hide();
-    // });
-    
-
     
 
     let showIsoButton = document.getElementById("showIso");
@@ -200,6 +178,7 @@ map.on('draw:created', function(event) {
         }
     })
  })
+
 
 /**
   * The function iterates through all HTML-objects from type input:checkbox
@@ -308,7 +287,6 @@ deleteButton.addEventListener('click', function(){
                     success: function (data) {
                         console.log(data);
                         window.location.href = "/"
-                        // $( "#stationsTable" ).load(window.location.href + " #stationsTable" );
                     },
                     error: function () {
                         alert('error')

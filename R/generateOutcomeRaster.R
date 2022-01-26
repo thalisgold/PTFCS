@@ -1,4 +1,4 @@
-test <- function(dummy) {
+generateOutcomeRaster <- function(dummy) {
   library(mongolite)
   library(sf)
   library(raster)
@@ -114,4 +114,4 @@ test <- function(dummy) {
   writeRaster(raster_2025, "./public/outcome/outcomeRaster_2025.tif", overwrite = TRUE)
   writeRaster(raster_2030, "./public/outcome/outcomeRaster_2030.tif", overwrite = TRUE)
 }
-test(dummy)
+# test(dummy)

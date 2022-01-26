@@ -92,7 +92,7 @@ router.post('/addStation', function(req, res) {
  */
  router.get('/calculateRaster', function(req, res) {
   
-  R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {dummy: "dummy"})
+  R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "generateOutcomeRaster", {dummy: "dummy"})
                 .then((result) => {
                     console.log(result);
                     res.send("Raster calculated")
