@@ -1,5 +1,12 @@
 "use strict"
 
+
+$(document).on({
+    ajaxStart: function() { $("body").addClass("loading"); },
+    ajaxStop: function() { $("body").removeClass("loading"); }    
+});
+
+
 //const APIIURL = "http://localhost:3000"
 /**
  * Event-listener that listens to a leaflet draw event. The function gets called
@@ -145,6 +152,8 @@ map.on('draw:created', function(event) {
         }
     }) 
 
+
+    
 
     // $(document).ajaxStart(function(){
     //     $('#loading').show();
@@ -310,7 +319,6 @@ deleteButton.addEventListener('click', function(){
                 alert('error')
             }
         })
-        .done()
     }
 })
 

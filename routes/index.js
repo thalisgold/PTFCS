@@ -53,10 +53,6 @@ router.get('/', function(req, res, next) {
  */
 router.post('/addStation', function(req, res) {
 
-  fs.unlink('../public/outcome/outcomeRaster.tif', () => {
-    console.log("outcoeRaster.tif deleted successfully")
-  })
-
   // console.log(req.body)
   let stationDataString = req.body.o;
   let stationData = JSON.parse(stationDataString)

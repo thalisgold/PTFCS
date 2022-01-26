@@ -1,47 +1,109 @@
 @media screen and (min-width: 1304px){
-  html {
-      height: 100%;
-  }
-  
-  body {
-      padding-top: 60px;
-      height: 100%;
-      font-family: Arial, Helvetica, sans-serif;
-  }
+    html {
+        height: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-  #map { 
-      height: 100%; 
-      width: 50%;
-      float: left;
-  }
-  
-  #infos { 
-      height: 100%;
-      margin-left: 50%;
-      overflow: auto;
-  }
+    #map { 
+        height: 100%; 
+        width: 50%;
+        float: left;
+    }
+    
+    #infos { 
+        height: 100%;
+        margin-left: 50%;
+        overflow: auto;
+    }
+
+    /* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+    .modal {
+        display:    none;
+        position:   fixed;
+        z-index:    1000;
+        top:        0;
+        left:       0;
+        height:     100%;
+        width:      100%;
+        background: rgba( 255, 255, 255, .8 ) 
+                    url('http://i.stack.imgur.com/FhHRx.gif') 
+                    50% 50% 
+                    no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+    the scrollbar off with overflow:hidden */
+    body.loading .modal {
+        overflow: hidden;   
+    }
+
+    /* Anytime the body has the loading class, our
+    modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
 }
 
 /* CSS-settings smaller than 1024px*/
 @media screen and (max-width: 1303px){
-  html {
-      height: 100%;
-      width: 100%;
-  }
-  
-  body {
-      padding-top: 60px;
-      height: 100%;
-  }
+    html {
+        height: 100%;
+        width: 100%;
+    }
+    
+    body {
+        padding-top: 60px;
+        height: 100%;
+    }
 
-  #map { 
-      height: 70%; 
-      width: 100%
-  }
+    #map { 
+        height: 70%; 
+        width: 100%
+    }
 
-  #infos {
-      height: 100%;
-      width: 100%;
-      overflow-x: hidden;
-  }
+    #infos {
+        height: 100%;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+    .modal {
+        display:    none;
+        position:   fixed;
+        z-index:    1000;
+        top:        0;
+        left:       0;
+        height:     100%;
+        width:      100%;
+        background: rgba( 255, 255, 255, .8 ) 
+                    url('http://i.stack.imgur.com/FhHRx.gif') 
+                    50% 50% 
+                    no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+    the scrollbar off with overflow:hidden */
+    body.loading .modal {
+        overflow: hidden;   
+    }
+
+    /* Anytime the body has the loading class, our
+    modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
 }
