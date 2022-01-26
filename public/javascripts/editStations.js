@@ -28,7 +28,7 @@ map.on('draw:created', function(event) {
                                     <output>10</output>\
                                 </div><br>\
                                 <div style="height: 25px;">\
-                                    <button id="showIso" type="button">Show Isochrone</button>\
+                                    <button class="btn btn-primary" id="showIso" type="button">Zeige Einflussgebiet</button>\
                                 </div>\
                                 <div>\
                                     <br>Ladestationstyp:</br><br>\
@@ -43,7 +43,9 @@ map.on('draw:created', function(event) {
                                     <output>5</output>\
                                 </div><br>\
                                 <div style="height: 25px;">\
-                                    <button id="send" type="button">Send</button>\
+                                    <button class="btn btn-success" id="send" type="button">Berechne neuen Ladebedarf</button>\
+                                    <br>\
+                                    <br>\
                                 </div>\
                             </form>';
  
@@ -57,6 +59,7 @@ map.on('draw:created', function(event) {
     // Event-listener, that listens to a leaflet 'click' event. The function that gets called removes the current tempMarker.
     map.on('click', function(e){
          tempMarker.remove();
+         isochroneGroup.clearLayers()
     })
  
     // variable that contains the "send"-button HTML-object
@@ -121,13 +124,11 @@ map.on('draw:created', function(event) {
                 },
                 success: function (data) {
                     console.log(data);
-                    let checkedScenario = getCheckedScenario();
-                    console.log(checkedScenario)
+                    // $( "#stationsTable" ).load(window.location.href + " #stationsTable" );
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: "/calculateRaster",
                         dataType: "text",
-                        data: checkedScenario,
                         success: function (data) {
                             console.log(data);
                             window.location.href = "/"
@@ -145,9 +146,29 @@ map.on('draw:created', function(event) {
     }) 
 
 
+    // $(document).ajaxStart(function(){
+    //     $('#loading').show();
+    //  }).ajaxStop(function(){
+    //     $('#loading').hide();
+    //  });
+
+    // $( document ).ajaxStart(function() {
+    //     $( "#loading-" ).show();
+    // });
+
+    // $( document ).ajaxStop(function() {
+    //     $( "#loading" ).hide();
+    // });
+    
+
+    
+
     let showIsoButton = document.getElementById("showIso");
+    let isochroneGroup = new L.FeatureGroup()
+    var isochroneGeoJSON;
 
     showIsoButton.addEventListener('click', async function(){
+        isochroneGroup.clearLayers()
         if(event.layerType == "marker") {
             var transportationType = $("input[name='transportationType']:checked").val();
             if (transportationType == 'F') {
@@ -164,13 +185,11 @@ map.on('draw:created', function(event) {
             var data = await getIso(profile, coords, minutes);
             console.log(data)
             var isochrone = await data.features[0];
-            var isochroneGeoJSON = await L.geoJSON(isochrone)
-            await isochroneGeoJSON.addTo(map);
-            // var isochroneGeom = data //.features[0].geometry.coordinates[0];
-            // console.log(isochroneGeom);
+            isochroneGeoJSON = L.geoJSON(isochrone)
+            isochroneGroup.addLayer(isochroneGeoJSON);
+            isochroneGroup.addTo(map)
         }
     })
-
  })
 
 /**
@@ -192,25 +211,6 @@ map.on('draw:created', function(event) {
     });
     return obj;
  }
-
-
-// variables that store the delete-Button HTML-object
-var calculationButton = document.getElementById('calculationButton');
-
-calculationButton.addEventListener('click', function() {
-    $.ajax({
-        type: "GET",
-        url: "/calculateRaster",
-        dataType: "text",
-        success: function (data) {
-            console.log(data);
-            window.location.href = "/"
-        },
-        error: function () {
-            alert('error')
-        }
-    })
-})
 
  var stationsArray = [];
  var stationsIDs = []
@@ -248,24 +248,23 @@ $('input[class=chbd]').change(async function() {
     });
     if (this.checked) {
         if (this.id == "2022"){
-            let url = "http://localhost:3000/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632_newValues.tif"
+            let url = "http://localhost:3000/outcome/outcomeRaster_2022.tif"
             let layer_2022 = await createLayerFromURL(url)
             scenarios.addLayer(layer_2022)
         }
         else if (this.id == "2025"){
-            let url = "http://localhost:3000/ladebedarf/2_ladebedarf_rasterized_2025_EPSG_32632_newValues.tif"
+            let url = "http://localhost:3000/outcome/outcomeRaster_2025.tif"
             let layer_2025 = await createLayerFromURL(url)
             scenarios.addLayer(layer_2025)
         }
         else if (this.id == "2030"){
-            let url = "http://localhost:3000/ladebedarf/3_ladebedarf_rasterized_2030_EPSG_32632_newValues.tif"
+            let url = "http://localhost:3000/outcome/outcomeRaster_2030.tif"
             let layer_2030 = await createLayerFromURL(url)
             scenarios.addLayer(layer_2030)
         }
     }
     map.addLayer(scenarios);
 });
-
 
 
 // variables that store the delete-Button HTML-object
@@ -293,7 +292,19 @@ deleteButton.addEventListener('click', function(){
             },
             success: function (data) {
                 console.log(data)
-                window.location.href = "/"
+                $.ajax({
+                    type: "GET",
+                    url: "/calculateRaster",
+                    dataType: "text",
+                    success: function (data) {
+                        console.log(data);
+                        window.location.href = "/"
+                        // $( "#stationsTable" ).load(window.location.href + " #stationsTable" );
+                    },
+                    error: function () {
+                        alert('error')
+                    }
+                })
             },
             error: function () {
                 alert('error')

@@ -94,11 +94,9 @@ router.post('/addStation', function(req, res) {
  * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
  * Validation on the data happens on the client sight.
  */
- router.post('/calculateRaster', function(req, res) {
-
-  let scenario = req.body.scenarioChecked
+ router.get('/calculateRaster', function(req, res) {
   
-  R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {data: scenario})
+  R.callMethodAsync(__dirname + "/../R/generateOutcomeRaster.R", "test", {dummy: "dummy"})
                 .then((result) => {
                     console.log(result);
                     res.send("Raster calculated")

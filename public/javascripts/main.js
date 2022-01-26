@@ -34,16 +34,21 @@ map.addLayer(drawnItems);
 
 console.log(stations)
 
-let outcomeURL = "http://localhost:3000/outcome/outcomeRaster.tif"
+// let outcomeURL = "http://localhost:3000/outcome/outcomeRaster.tif"
 
-async function showOutcomeRaster(url) {
-    var layer = await createLayerFromURL(url)
-    if (layer != null) {
-        map.addLayer(layer);
-    }
-}
+// async function showOutcomeRaster(url) {
+//     try {
+//         var layer = await createLayerFromURL(url)
+//         if (layer != null) {
+//             scenarios.addLayer(layer)
+//             map.addLayer(scenarios);
+//         }
+//     } catch (error) {
+//         console.log("No outcomeRaster.tif available")
+//     }
+// }
 
-showOutcomeRaster(outcomeURL)
+// showOutcomeRaster(outcomeURL)
 
 // var layer = createLayerFromURL("http://localhost:3000/outcome/outcomeRaster.tif")
 // if (layer != null) {

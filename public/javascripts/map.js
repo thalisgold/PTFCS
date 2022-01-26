@@ -51,7 +51,7 @@ function addOSMTileLayer(mapObj) {
     var max = 3.716505
     var range = max - min;
     try {
-        var response = await fetch(url);
+        var response = await fetch(url).catch((error) => {console.log(error)});
         var arrayBuffer = await response.arrayBuffer();
         var georaster = await parseGeoraster(arrayBuffer);
         var layer = new GeoRasterLayer({
