@@ -57,9 +57,9 @@
     }
 
     #stationsTable tr:hover td {
-        background: rgb(20, 131, 75)
+        background: rgb(212, 130, 130)
     }
-    
+
     .my-legend .legend-title {
         text-align: left;
         margin-bottom: 5px;
@@ -167,7 +167,7 @@
     }
 
     #stationsTable tr:hover td {
-        background: rgb(20, 131, 75)
+        background: rgb(212, 130, 130)
     }
     .my-legend .legend-title {
         text-align: left;
