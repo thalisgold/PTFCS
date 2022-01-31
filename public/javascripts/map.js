@@ -51,9 +51,9 @@ for (let index = min; index <= max;) {
        usedColours.push(scale(scaledPixelValueForLegend).hex());
        index += 0.4129451;
 }
-console.log(usedColours)
+
 const classesArray = [0, 0.41, 0.83, 1.24, 1.66, 2.06, 2.48, 2.89, 3.30, 3.72]
-console.log(classesArray)
+
 
 /**
  * Function that generates HTML code to dynamically add a legend to the result page
