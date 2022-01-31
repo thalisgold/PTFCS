@@ -4,7 +4,6 @@ block content
   #map 
 
   #infos
-
     #stationsTable
             table.table.table-striped
                 tr
@@ -56,6 +55,11 @@ block content
                                 input(type='radio' class='chbd' id="Karte")
                         td  Layer aus
     
+    .div1                 
+        .my-legend
+            .legend-scale
+                p Ladebedarf in Minuten pro Pixel
+                ul#legend.legend-labels
 
     script.
         var stations = !{JSON.stringify(stationData)}

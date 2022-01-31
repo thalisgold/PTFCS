@@ -40,6 +40,85 @@ function addOSMTileLayer(mapObj) {
     return new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution:'&copy; <a href="http://osm.org/copyright%22%3EOpenStreetMap</a> contributors'}).addTo(mapObj);
 }
 
+// create array with the colours to be used for the classification
+const usedColours = [];
+var scale = chroma.scale("RdYlGn") // choose color scale
+var min = 0;
+var max = 0.4129451*9;
+var range = max - min
+for (let index = min; index <= max;) {
+       var scaledPixelValueForLegend = 1 - ((index - min) / range);
+       usedColours.push(scale(scaledPixelValueForLegend).hex());
+       index += 0.4129451;
+}
+console.log(usedColours)
+const classesArray = [0, 0.41, 0.83, 1.24, 1.66, 2.06, 2.48, 2.89, 3.30, 3.72]
+console.log(classesArray)
+
+/**
+ * Function that generates HTML code to dynamically add a legend to the result page
+ * @param colourArray - Array of the colours
+ * @param classesArray - Array of the classes
+ * @returns an HTML String of all necessary elements for the legend and the matching style sheet
+ */
+function makeLegendHTML(colourArray, classesArray) {
+    
+  var result = '';
+  for (let index = 0; index < colourArray.length; index++) {
+    result += `<li><span style='background: ${colourArray[index]};'></span>${classesArray[index]}</li>`;
+  }
+  result +=
+    "<style type='text/css'>\
+  .my-legend .legend-title {\
+    text-align: left;\
+    margin-bottom: 5px;\
+    font-weight: bold;\
+    font-size: 90%;\
+    }\
+  .my-legend .legend-scale ul {\
+    margin: 0;\
+    margin-bottom: 5px;\
+    padding: 0;\
+    float: left;\
+    list-style: none;\
+    }\
+  .my-legend .legend-scale ul li {\
+    font-size: 80%;\
+    list-style: none;\
+    margin-left: 0;\
+    line-height: 18px;\
+    margin-bottom: 2px;\
+    }\
+  .my-legend ul.legend-labels li span {\
+    display: block;\
+    float: left;\
+    height: 16px;\
+    width: 30px;\
+    margin-right: 5px;\
+    margin-left: 0;\
+    border: 1px solid #999;\
+    }\
+  .my-legend .legend-source {\
+    font-size: 70%;\
+    color: #999;\
+    clear: both;\
+    }\
+  .my-legend a {\
+    color: #777;\
+    }\
+</style>";
+  return result;
+}
+
+// insert the created html code in the right position to display the legend
+document.getElementById('legend').innerHTML = makeLegendHTML(
+  usedColours,
+  classesArray
+);
+
+
+
+
 /**
  * Function, that fetches all urls of the tifs to generate the three default scenarios as layers
  * @param {Array} url_array - array that contains all urls to the necessary tif files.
