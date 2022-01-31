@@ -75,3 +75,4 @@ function addOSMTileLayer(mapObj) {
         return null;
     }
 }
+

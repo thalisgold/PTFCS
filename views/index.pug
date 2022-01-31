@@ -15,7 +15,7 @@ block content
                     th Anzahl der Stationen
                 
                 each n, index in stationData
-                    tr
+                    tr.tablerow(id=n._id)
                         td
                             input(type='checkbox' class='chb' id=n._id)
                         td= n.properties.Profile
@@ -47,7 +47,14 @@ block content
                         td
                                 input(type='radio' class='chbd' id="2030")
                         td  Ladebedarf 2030
+                    tr 
+                        td 
 
+                        td
+                    tr 
+                        td
+                                input(type='radio' class='chbd' id="Karte")
+                        td  Layer aus
     
 
     script.

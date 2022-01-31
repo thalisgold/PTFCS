@@ -201,6 +201,7 @@ map.on('draw:created', function(event) {
  }
 
  var stationsArray = [];
+ var isochroneArray = []
  var stationsIDs = []
 
  $('input[class=chb]').change(function() {
@@ -210,9 +211,18 @@ map.on('draw:created', function(event) {
                 var exteriorStyle = {
                     "fillOpacity": 0
                 };
-                let s = L.geoJSON(stations[i], {style: exteriorStyle, stationId: this.id})
-                stationsArray.push(s)
-                s.addTo(map)
+                console.log(stations[i])
+                let station = L.geoJSON(stations[i].geometry.geometries[0], {style: exteriorStyle, stationId: this.id})
+                station.bindPopup("Hier")
+                stationsArray.push(station)
+
+                let isochrone = L.geoJSON(stations[i].geometry.geometries[1], {style: exteriorStyle, stationId: this.id})
+                isochroneArray.push(isochrone)
+
+                station.addTo(map)
+                isochrone.addTo(map)
+
+                station.openPopup()
                 stationsIDs.push(this.id)
             }   
         }
@@ -220,13 +230,16 @@ map.on('draw:created', function(event) {
         for (let i = 0; i < stationsArray.length; i++) {
             if (stationsArray[i].options.stationId == this.id) {
                 map.removeLayer(stationsArray[i])
+                map.removeLayer(isochroneArray[i])
                 stationsArray.splice(i,1)
+                isochroneArray.splice(i,1)
                 stationsIDs.splice(i,1)
             } 
         } 
     }
     console.log(stationsArray)
 });
+
 let scenarios = new L.FeatureGroup();
 
 $('input[class=chbd]').change(async function() {
@@ -249,6 +262,9 @@ $('input[class=chbd]').change(async function() {
             let url = "http://localhost:3000/outcome/outcomeRaster_2030.tif"
             let layer_2030 = await createLayerFromURL(url)
             scenarios.addLayer(layer_2030)
+        }
+        if (this.id == "Karte") {
+            scenarios.removeLayer(layer)
         }
     }
     map.addLayer(scenarios);
@@ -342,3 +358,53 @@ async function getIso(profile, coords, minutes) {
         }`
     return geoJSON;
  }
+
+
+
+var tablerows = document.getElementsByClassName("tablerow");
+console.log(tablerows)
+for (let i = 0; i < tablerows.length; i++) {
+    tablerows[i].addEventListener('mouseover', function(e) {
+        console.log(stationsArray);
+        markerFunctionOpen(this.id);
+    })
+}  
+for (let i = 0; i < tablerows.length; i++) {
+    tablerows[i].addEventListener('mouseout', function(e) {
+        //console.log(this.id);
+        markerFunctionClose(this.id);
+    })
+}  
+
+
+
+/**
+ * The function opens the marker-popup of the sight with the given id.
+ * 
+ * @param {String} id - DB
+ */
+ function markerFunctionOpen(id){
+    for (var i in stationsArray){
+        var markerID = stationsArray[i].options.stationId;
+        if (markerID == id){
+            console.log(id)
+            console.log(stationsArray[i])
+            stationsArray[i].openPopup();
+        };
+    }
+}
+
+
+/**
+ * The function closes the marker-popup of the sight with the given id.
+ * 
+ * @param {String} id 
+ */
+function markerFunctionClose(id){
+    for (var i in stationsArray){
+        var markerID = stationsArray[i].options.stationId;
+        if (markerID == id){
+            stationsArray[i].closePopup();
+        };
+    }
+}

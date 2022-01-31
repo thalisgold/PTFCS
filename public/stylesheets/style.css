@@ -55,6 +55,10 @@
     body.loading .modal {
         display: block;
     }
+
+    #stationsTable tr:hover td {
+        background: rgb(20, 131, 75)
+    }
 }
 
 /* CSS-settings smaller than 1024px*/
@@ -109,5 +113,9 @@
     modal element will be visible */
     body.loading .modal {
         display: block;
+    }
+
+    #stationsTable tr:hover td {
+        background: rgb(20, 131, 75)
     }
 }
