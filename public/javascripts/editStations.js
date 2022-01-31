@@ -85,10 +85,10 @@ map.on('draw:created', function(event) {
             //STATION
             // station type
             var stationType = $("input[name='stationType']:checked").val();
-            console.log(stationType)
+            // console.log(stationType)
             // minutes
             var minutes = await document.getElementById("zeitspanne").value;
-            console.log(minutes)
+            // console.log(minutes)
             // number of stations            
             var numberStations = await document.getElementById("anzahlLadestation").value;
 
@@ -106,12 +106,12 @@ map.on('draw:created', function(event) {
             console.log("transportationType:"+ profile);
             // marker
             var coords = await event.layer._latlng;
-            console.log(coords);
+            // console.log(coords);
             // isochrone as GeoJSON
             var data = await getIso(profile, coords, minutes);
-            console.log(data)
+            // console.log(data)
             var isochrone = await data.features[0].geometry.coordinates[0];
-            console.log(isochrone);
+            // console.log(isochrone);
             let isochroneString = JSON.stringify(isochrone)
 
 
@@ -166,11 +166,11 @@ map.on('draw:created', function(event) {
             }
             console.log("transportationType:"+ profile);
             var coords = await event.layer._latlng;
-            console.log(coords)
+            // console.log(coords)
             var minutes = await document.getElementById("zeitspanne").value;
-            console.log(minutes)
+            // console.log(minutes)
             var data = await getIso(profile, coords, minutes);
-            console.log(data)
+            // console.log(data)
             var isochrone = await data.features[0];
             isochroneGeoJSON = L.geoJSON(isochrone)
             isochroneGroup.addLayer(isochroneGeoJSON);
@@ -211,7 +211,7 @@ map.on('draw:created', function(event) {
                 var exteriorStyle = {
                     "fillOpacity": 0
                 };
-                console.log(stations[i])
+                // console.log(stations[i])
                 let station = L.geoJSON(stations[i].geometry.geometries[0], {style: exteriorStyle, stationId: this.id})
                 station.bindPopup("Hier")
                 stationsArray.push(station)
@@ -224,6 +224,7 @@ map.on('draw:created', function(event) {
 
                 station.openPopup()
                 stationsIDs.push(this.id)
+                // console.log(stationsIDs)
             }   
         }
     } else {
@@ -237,7 +238,7 @@ map.on('draw:created', function(event) {
             } 
         } 
     }
-    console.log(stationsArray)
+    // console.log(stationsArray)
 });
 
 let scenarios = new L.FeatureGroup();
@@ -264,7 +265,6 @@ $('input[class=chbd]').change(async function() {
             scenarios.addLayer(layer_2030)
         }
         if (this.id == "Karte") {
-            scenarios.removeLayer(layer)
         }
     }
     map.addLayer(scenarios);
@@ -362,16 +362,14 @@ async function getIso(profile, coords, minutes) {
 
 
 var tablerows = document.getElementsByClassName("tablerow");
-console.log(tablerows)
+// console.log(tablerows)
 for (let i = 0; i < tablerows.length; i++) {
     tablerows[i].addEventListener('mouseover', function(e) {
-        console.log(stationsArray);
         markerFunctionOpen(this.id);
     })
 }  
 for (let i = 0; i < tablerows.length; i++) {
     tablerows[i].addEventListener('mouseout', function(e) {
-        //console.log(this.id);
         markerFunctionClose(this.id);
     })
 }  
@@ -387,8 +385,6 @@ for (let i = 0; i < tablerows.length; i++) {
     for (var i in stationsArray){
         var markerID = stationsArray[i].options.stationId;
         if (markerID == id){
-            console.log(id)
-            console.log(stationsArray[i])
             stationsArray[i].openPopup();
         };
     }
