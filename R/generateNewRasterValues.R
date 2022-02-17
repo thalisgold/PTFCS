@@ -2,7 +2,7 @@ rm(list = ls())
 library(raster)
 library(mapview)
 
-# Zuvor den Ladebedarf pro Pixel in Minuten mit Hilfe des R-Skripts "" berechnen (für Potenzial 1).
+# Zuvor den Ladebedarf pro Pixel in Minuten mit Hilfe des R-Skripts "Ladebedarfsermittlung_Muenster.R" berechnen (fÃ¼r Potenzial 1).
 ladebedarf_pro_woche_pro_pixel_in_minuten = 0.4129451
 
 # ladebedarf_pro_woche_pro_pixel_in_sekunden = 0.4129451 * 60
