@@ -47,8 +47,8 @@ router.get('/', function(req, res, next) {
 });
 
  /**
- * POST to insert sights into the database.
- * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
+ * POST to insert stations into the database.
+ * Gets all the necessary information (from the form) about a station from a ajax call and stores it in the database.
  * Validation on the data happens on the client sight.
  */
 router.post('/addStation', function(req, res) {
@@ -86,9 +86,7 @@ router.post('/addStation', function(req, res) {
 
 
 /**
- * POST to insert sights into the database.
- * Gets all the necessary information (from the form) about a sight from a ajax call and stores it in the database.
- * Validation on the data happens on the client sight.
+ * Calls the function from the R-script to generate new outcome rasters
  */
  router.get('/calculateRaster', function(req, res) {
   
@@ -105,9 +103,9 @@ router.post('/addStation', function(req, res) {
 
 
 /**
- * POST to delete sight.
- * Recieves an object with the ids of all checked sights that should be deleted from the database.
- * It then iterates over the array and sends a delete query to DB with the specific sight to delete. 
+ * POST to delete station.
+ * Recieves an object with the ids of all checked stations that should be deleted from the database.
+ * It then iterates over the array and sends a delete query to DB with the specific stations to delete. 
  */ 
 router.post('/delete', function(req, res) {
   let stationsIDs = JSON.parse(req.body.o).stationsIDs
