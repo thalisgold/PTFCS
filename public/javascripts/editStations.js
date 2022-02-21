@@ -7,18 +7,17 @@ $(document).on({
 });
 
 
-//const APIIURL = "http://localhost:3000"
 /**
  * Event-listener that listens to a leaflet draw event. The function gets called
- * every time the event (new marker or polygon drawn) happens.
+ * every time the event (new marker) happens.
  */
 map.on('draw:created', function(event) {
 
     // console.log(event.layerType)
-    // add a temporal marker or polygon to that map
+    // add a temporal marker to that map
     var tempMarker = event.layer.addTo(map);
     
-    // html-form, used for marker-/polygon-popup (Name, Beschreibung, URL)
+    // html-form, used for marker-popup (station form)
     var popupContent =      '<form id="popup-form" style="font-size: 11pt">\
                                 <form id="myForm">\
                                 <div>\
@@ -57,7 +56,7 @@ map.on('draw:created', function(event) {
                             </form>';
  
 
-    // binds a popup to every drawn marker or polygon         
+    // binds a popup to every drawn marker        
     tempMarker.bindPopup(popupContent,{
         keepInView: false,
         closeButton: true
@@ -73,11 +72,7 @@ map.on('draw:created', function(event) {
     let sendButton = document.getElementById("send");
     /**
      * Event-listener that listens to a 'click'-event on the send-button. The function that gets called when the event happens,
-     * takes all the values of the popup-form, validates the entries, builds a geojson-string and sends it to the server.
-     * Validation:  - Check if there is a name entry
-     *              - Check if the url entry contains a wikipedia url. 
-     *                  -> If yes, the wikipedia-API is used to get the first 3 sentences of the wikipedia article and sets it as sights description.
-     *                  -> If not, use the entered description or set 'Keine Informationen vorhanden' as description, if no description was given. 
+     * takes all the values of the popup-form and sends it to the server.
      */ 
     sendButton.addEventListener('click', async function(){
         if(event.layerType == "marker") {
@@ -119,7 +114,7 @@ map.on('draw:created', function(event) {
             console.log(objectDataString)
   
   
-            // Ajax request to send sight data to server to upload it to the database
+            // Ajax request to send station data to server to upload it to the database
             $.ajax({
                 type: "POST",
                 url: "/addStation",
@@ -149,11 +144,15 @@ map.on('draw:created', function(event) {
         }
     }) 
     
-
+    // variable that contains the "showIsochrone"-button HTML-object
     let showIsoButton = document.getElementById("showIso");
     let isochroneGroup = new L.FeatureGroup()
     var isochroneGeoJSON;
 
+    /**
+     * Event-listener that listens to a 'click'-event on the showIso-button. The function that gets called when the event happens,
+     * takes the values of the popup-form, calls the getIso function and adds the isochrone to the map.
+     */ 
     showIsoButton.addEventListener('click', async function(){
         isochroneGroup.clearLayers()
         if(event.layerType == "marker") {
@@ -199,11 +198,13 @@ map.on('draw:created', function(event) {
     });
     return obj;
  }
-
+ 
+ // initialize variables
  var stationsArray = [];
  var isochroneArray = []
  var stationsIDs = []
-
+ 
+ // show pop-up on markers on map when checking the station in list
  $('input[class=chb]').change(function() {
     if (this.checked) {
         for (let i = 0; i < stations.length; i++) {
@@ -241,8 +242,10 @@ map.on('draw:created', function(event) {
     // console.log(stationsArray)
 });
 
+// initialize variable
 let scenarios = new L.FeatureGroup();
 
+// add layers with layer control for each szenario to map
 $('input[class=chbd]').change(async function() {
     $('input[class=chbd]').not(this).prop('checked', false);
     scenarios.eachLayer(function (layer) {
@@ -278,12 +281,12 @@ var deleteButton = document.getElementById('deleteButton');
  * Event-listener that listens for a click event on the deleteButton. 
  * If the button is clicked the callback function is executed which sends 
  * an ajax-POST-request to the express server. 
- * The data sent to the server contains the id's of the routes which should be deleted from the database.
+ * The data sent to the server contains the id's of the stations which should be deleted from the database.
  * After the ajax-request is done the page gets refreshed.
  */
 deleteButton.addEventListener('click', function(){
     if (stationsIDs.length != 0){
-        // Ajax request that sends information about the sights that should be deleted from the database to the server.
+        // Ajax request that sends information about the stations that should be deleted from the database to the server.
         var obj = {}
         obj.stationsIDs = stationsIDs
         var objectDataString = JSON.stringify(obj)
@@ -316,7 +319,7 @@ deleteButton.addEventListener('click', function(){
     }
 })
 
-
+// function to request the isochrone from mapbox API
 async function getIso(profile, coords, minutes) {
     const query = await fetch(
         `https://api.mapbox.com/isochrone/v1/mapbox/${profile}/${coords.lng},${coords.lat}?contours_minutes=${minutes}&polygons=true&access_token=${mapboxToken}`,
@@ -327,13 +330,7 @@ async function getIso(profile, coords, minutes) {
 }
 
 /**
- * This function creates a GeoJSON string from informations about a sight
- * @param {String} name - name of a sight
- * @param {String} url  - URL of a sight
- * @param {String} beschreibung  - short description of a sight
- * @param {Object} coords - coordinates of a sight {"lat":, "lng":}
- * @param {String} type - type of a sight
- * @returns - GeoJSON string
+ * This function creates a GeoJSON string from informations about a station
  */
  function createGeoJSONString(profile, coords, isochrone, stationType, minutes, numberStations) {
     // LayerType validation
@@ -360,7 +357,7 @@ async function getIso(profile, coords, minutes) {
  }
 
 
-
+// create table which lists all stations
 var tablerows = document.getElementsByClassName("tablerow");
 // console.log(tablerows)
 for (let i = 0; i < tablerows.length; i++) {
@@ -377,7 +374,7 @@ for (let i = 0; i < tablerows.length; i++) {
 
 
 /**
- * The function opens the marker-popup of the sight with the given id.
+ * The function opens the marker-popup of the station with the given id.
  * 
  * @param {String} id - DB
  */
@@ -392,7 +389,7 @@ for (let i = 0; i < tablerows.length; i++) {
 
 
 /**
- * The function closes the marker-popup of the sight with the given id.
+ * The function closes the marker-popup of the station with the given id.
  * 
  * @param {String} id 
  */
