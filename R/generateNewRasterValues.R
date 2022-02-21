@@ -6,7 +6,6 @@ library(mapview)
 ladebedarf_pro_woche_pro_pixel_in_minuten = 0.4129451
 
 # ladebedarf_pro_woche_pro_pixel_in_sekunden = 0.4129451 * 60
-# ladebedarf_pro_woche_pro_pixel_in_sekunden
 
 ladebedarf_rasterized_2022 = raster("public/ladebedarf/1_ladebedarf_rasterized_2022_EPSG_32632.tif")
 ladebedarf_rasterized_2022_newValues = ladebedarf_rasterized_2022 * ladebedarf_pro_woche_pro_pixel_in_minuten
