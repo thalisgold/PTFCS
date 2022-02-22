@@ -36,4 +36,4 @@ Starten der Web-Applikation
 ```console
 user@user-pc:~/selectedDirectory/PTFCS$ npm start
 ```
-Die Anwendung läuft anschließend über [https://http://localhost:3000/](https://http://localhost:3000/)
+Die Anwendung läuft anschließend über [http://localhost:3000/](http://localhost:3000/)
