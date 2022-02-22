@@ -32,8 +32,10 @@ npm install
 ```
 
 ### Schritt 3
-(Installation) und Starten der MongoDB
-[MongoDB Docs](https://docs.mongodb.com/manual/installation/)
+(Installation) und Starten der MongoDB\
+\
+[MongoDB Docs](https://docs.mongodb.com/manual/installation/)\
+\
 Beim Starten ist keine besondere Portbelegung zu beachten. Die MongoDB kann unter dem vordefinierten Port (27017) gestartet werden.
 
 ### Schritt 4
