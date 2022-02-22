@@ -21,19 +21,19 @@ Das Tool beinhaltet Szenarien für die Jahre 2022, 2025 und 2030.
 ### Schritt 1
 Klonen des Repositories:
 ```console
-user@user-pc:~/selectedDirectory$ git clone https://github.com/thalisgold/PTFCS.git
+git clone https://github.com/thalisgold/PTFCS.git
 ```
 Alternativ kann das Repository über GitHub-Desktop geklont werden.
 
 ### Schritt 2
 Installieren der notwendigen ```node_modules```
 ```console
-user@user-pc:~/selectedDirectory/PTFCS$ npm install
+npm install
 ```
 
 ### Schritt 3
 Starten der Web-Applikation
 ```console
-user@user-pc:~/selectedDirectory/PTFCS$ npm start
+npm start
 ```
 Die Anwendung läuft anschließend über [http://localhost:3000/](http://localhost:3000/)
