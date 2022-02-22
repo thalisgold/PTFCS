@@ -16,3 +16,24 @@ Anzahl und Art der Ladestation sowie weitere Parameter zur Bestimmung des Einflu
 daraufhin wie sich der Ladebedarf der Regionen aufgrund der hinzugefügten Ladestation verändert.
 Der Ladebedarf für die Regionen wird anschließend aktualisiert.
 Das Tool beinhaltet Szenarien für die Jahre 2022, 2025 und 2030.
+
+## Starten des Tools (lokal)
+### Schritt 1
+Klonen des Repositories:
+```console
+user@user-pc:~/selectedDirectory$ git clone https://github.com/thalisgold/PTFCS.git
+```
+Alternativ kann das Repository über GitHub-Desktop geklont werden.
+
+### Schritt 2
+Installieren der notwendigen ```node_modules```
+```console
+user@user-pc:~/selectedDirectory/PTFCS$ npm install
+```
+
+### Schritt 3
+Starten der Web-Applikation
+```console
+user@user-pc:~/selectedDirectory/PTFCS$ npm start
+```
+Die Anwendung läuft anschließend über [https://http://localhost:3000/](https://http://localhost:3000/)
